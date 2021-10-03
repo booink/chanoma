@@ -1,0 +1,864 @@
+---
+items:
+  - from: "~"
+    to: "~"
+  - from: ˗
+    to: "-"
+  - from: ֊
+    to: "-"
+  - from: ‐
+    to: "-"
+  - from: ‑
+    to: "-"
+  - from: ‒
+    to: "-"
+  - from: –
+    to: "-"
+  - from: —
+    to: ー
+  - from: ―
+    to: ー
+  - from: ’
+    to: "'"
+  - from: ”
+    to: "\""
+  - from: ⁃
+    to: "-"
+  - from: ⁻
+    to: "-"
+  - from: ₋
+    to: "-"
+  - from: −
+    to: "-"
+  - from: ∼
+    to: "~"
+  - from: ∾
+    to: "~"
+  - from: ─
+    to: ー
+  - from: ━
+    to: ー
+  - from: 〜
+    to: "~"
+  - from: 〰
+    to: "~"
+  - from: ㌀
+    to: アパート
+  - from: ㌁
+    to: アルファ
+  - from: ㌂
+    to: アンペア
+  - from: ㌃
+    to: アール
+  - from: ㌄
+    to: イニング
+  - from: ㌅
+    to: インチ
+  - from: ㌆
+    to: ウォン
+  - from: ㌇
+    to: エスクード
+  - from: ㌈
+    to: エーカー
+  - from: ㌉
+    to: オンス
+  - from: ㌊
+    to: オーム
+  - from: ㌋
+    to: カイリ
+  - from: ㌌
+    to: カラット
+  - from: ㌍
+    to: カロリー
+  - from: ㌎
+    to: ガロン
+  - from: ㌏
+    to: ガンマ
+  - from: ㌐
+    to: ギガ
+  - from: ㌑
+    to: ギニー
+  - from: ㌒
+    to: キュリー
+  - from: ㌓
+    to: ギルダー
+  - from: ㌔
+    to: キロ
+  - from: ㌕
+    to: キログラム
+  - from: ㌖
+    to: キロメートル
+  - from: ㌗
+    to: キロワット
+  - from: ㌘
+    to: グラム
+  - from: ㌙
+    to: グラムトン
+  - from: ㌚
+    to: クルゼイロ
+  - from: ㌛
+    to: クローネ
+  - from: ㌜
+    to: ケース
+  - from: ㌝
+    to: コルナ
+  - from: ㌞
+    to: コーポ
+  - from: ㌟
+    to: サイクル
+  - from: ㌠
+    to: サンチーム
+  - from: ㌡
+    to: シリング
+  - from: ㌢
+    to: センチ
+  - from: ㌣
+    to: セント
+  - from: ㌤
+    to: ダース
+  - from: ㌥
+    to: デシ
+  - from: ㌦
+    to: ドル
+  - from: ㌧
+    to: トン
+  - from: ㌨
+    to: ナノ
+  - from: ㌩
+    to: ノット
+  - from: ㌪
+    to: ハイツ
+  - from: ㌫
+    to: パーセント
+  - from: ㌬
+    to: パーツ
+  - from: ㌭
+    to: バーレル
+  - from: ㌮
+    to: ピアストル
+  - from: ㌯
+    to: ピクル
+  - from: ㌰
+    to: ピコ
+  - from: ㌱
+    to: ビル
+  - from: ㌲
+    to: ファラッド
+  - from: ㌳
+    to: フィート
+  - from: ㌴
+    to: ブッシェル
+  - from: ㌵
+    to: フラン
+  - from: ㌶
+    to: ヘクタール
+  - from: ㌷
+    to: ペソ
+  - from: ㌸
+    to: ペニヒ
+  - from: ㌹
+    to: ヘルツ
+  - from: ㌺
+    to: ペンス
+  - from: ㌻
+    to: ページ
+  - from: ㌼
+    to: ベータ
+  - from: ㌽
+    to: ポイント
+  - from: ㌾
+    to: ボルト
+  - from: ㌿
+    to: ホン
+  - from: ㍀
+    to: ポンド
+  - from: ㍁
+    to: ホール
+  - from: ㍂
+    to: ホーン
+  - from: ㍃
+    to: マイクロ
+  - from: ㍄
+    to: マイル
+  - from: ㍅
+    to: マッハ
+  - from: ㍆
+    to: マルク
+  - from: ㍇
+    to: マンション
+  - from: ㍈
+    to: ミクロン
+  - from: ㍉
+    to: ミリ
+  - from: ㍊
+    to: ミリバール
+  - from: ㍋
+    to: メガ
+  - from: ㍌
+    to: メガトン
+  - from: ㍍
+    to: メートル
+  - from: ㍎
+    to: ヤード
+  - from: ㍏
+    to: ヤール
+  - from: ㍐
+    to: ユアン
+  - from: ㍑
+    to: リットル
+  - from: ㍒
+    to: リラ
+  - from: ㍓
+    to: ルピー
+  - from: ㍔
+    to: ルーブル
+  - from: ㍕
+    to: レム
+  - from: ㍖
+    to: レントゲン
+  - from: ㍗
+    to: ワット
+  - from: ㍘
+    to: 0点
+  - from: ㍙
+    to: 1点
+  - from: ㍚
+    to: 2点
+  - from: ㍛
+    to: 3点
+  - from: ㍜
+    to: 4点
+  - from: ㍝
+    to: 5点
+  - from: ㍞
+    to: 6点
+  - from: ㍟
+    to: 7点
+  - from: ㍠
+    to: 8点
+  - from: ㍡
+    to: 9点
+  - from: ㍢
+    to: 10点
+  - from: ㍣
+    to: 11点
+  - from: ㍤
+    to: 12点
+  - from: ㍥
+    to: 13点
+  - from: ㍦
+    to: 14点
+  - from: ㍧
+    to: 15点
+  - from: ㍨
+    to: 16点
+  - from: ㍩
+    to: 17点
+  - from: ㍪
+    to: 18点
+  - from: ㍫
+    to: 19点
+  - from: ㍬
+    to: 20点
+  - from: ㍭
+    to: 21点
+  - from: ㍮
+    to: 22点
+  - from: ㍯
+    to: 23点
+  - from: ㍰
+    to: 24点
+  - from: ㍱
+    to: hPa
+  - from: ㍲
+    to: da
+  - from: ㍳
+    to: AU
+  - from: ㍴
+    to: bar
+  - from: ㍵
+    to: oV
+  - from: ㍶
+    to: pc
+  - from: ㍷
+    to: dm
+  - from: ㍸
+    to: dm2
+  - from: ㍹
+    to: dm3
+  - from: ㍺
+    to: IU
+  - from: ㍻
+    to: 平成
+  - from: ㍼
+    to: 昭和
+  - from: ㍽
+    to: 大正
+  - from: ㍾
+    to: 明治
+  - from: ㍿
+    to: 株式会社
+  - from: ㎀
+    to: pA
+  - from: ㎁
+    to: nA
+  - from: ㎂
+    to: µA
+  - from: ㎃
+    to: mA
+  - from: ㎄
+    to: kA
+  - from: ㎅
+    to: KB
+  - from: ㎆
+    to: MB
+  - from: ㎇
+    to: GB
+  - from: ㎈
+    to: cal
+  - from: ㎉
+    to: kcal
+  - from: ㎊
+    to: pF
+  - from: ㎋
+    to: nF
+  - from: ㎌
+    to: µF
+  - from: ㎍
+    to: µg
+  - from: ㎎
+    to: mg
+  - from: ㎏
+    to: kg
+  - from: ㎐
+    to: Hz
+  - from: ㎑
+    to: kHz
+  - from: ㎒
+    to: MHz
+  - from: ㎓
+    to: GHz
+  - from: ㎔
+    to: THz
+  - from: ㎕
+    to: µl
+  - from: ㎖
+    to: ml
+  - from: ㎗
+    to: dl
+  - from: ㎘
+    to: kl
+  - from: ㎙
+    to: fm
+  - from: ㎚
+    to: nm
+  - from: ㎛
+    to: µm
+  - from: ㎜
+    to: mm
+  - from: ㎝
+    to: cm
+  - from: ㎞
+    to: km
+  - from: ㎟
+    to: mm
+  - from: ㎠
+    to: cm2
+  - from: ㎡
+    to: m2
+  - from: ㎢
+    to: km2
+  - from: ㎣
+    to: cm3
+  - from: ㎣
+    to: mm3
+  - from: ㎥
+    to: m3
+  - from: ㎦
+    to: km3
+  - from: ㎧
+    to: m/s
+  - from: ㎨
+    to: m/s2
+  - from: ㎩
+    to: Pa
+  - from: ㎪
+    to: kPa
+  - from: ㎫
+    to: MPa
+  - from: ㎬
+    to: GPa
+  - from: ㎭
+    to: rad
+  - from: ㎮
+    to: rad/s
+  - from: ㎯
+    to: rad/s2
+  - from: ㎰
+    to: ps
+  - from: ㎱
+    to: ns
+  - from: ㎲
+    to: µs
+  - from: ㎳
+    to: ms
+  - from: ㎴
+    to: pV
+  - from: ㎵
+    to: nV
+  - from: ㎶
+    to: µV
+  - from: ㎷
+    to: mV
+  - from: ㎸
+    to: kV
+  - from: ㎹
+    to: MV
+  - from: ㎺
+    to: pW
+  - from: ㎻
+    to: nW
+  - from: ㎼
+    to: µW
+  - from: ㎽
+    to: mW
+  - from: ㎾
+    to: kW
+  - from: ㎿
+    to: MW
+  - from: ㏀
+    to: kΩ
+  - from: ㏁
+    to: MΩ
+  - from: ㏂
+    to: a.m.
+  - from: ㏃
+    to: Bq
+  - from: ㏄
+    to: cc
+  - from: ㏅
+    to: cd
+  - from: ㏆
+    to: C/kg
+  - from: ㏇
+    to: Co.
+  - from: ㏈
+    to: dB
+  - from: ㏉
+    to: Gy
+  - from: ㏊
+    to: ha
+  - from: ㏋
+    to: HP
+  - from: ㏌
+    to: in
+  - from: ㏍
+    to: K.
+  - from: ㏎
+    to: KM
+  - from: ㏏
+    to: kt
+  - from: ㏐
+    to: lm
+  - from: ㏑
+    to: ln
+  - from: ㏒
+    to: log
+  - from: ㏓
+    to: lx
+  - from: ㏔
+    to: mb
+  - from: ㏕
+    to: mil
+  - from: ㏖
+    to: mol
+  - from: ㏗
+    to: pH
+  - from: ㏘
+    to: p.m.
+  - from: ㏙
+    to: ppm
+  - from: ㏚
+    to: PR
+  - from: ㏛
+    to: sr
+  - from: ㏜
+    to: Sv
+  - from: ㏝
+    to: Wb
+  - from: ㏞
+    to: V/m
+  - from: ㏟
+    to: A/m
+  - from: ㏠
+    to: 1日
+  - from: ㏡
+    to: 2日
+  - from: ㏢
+    to: 3日
+  - from: ㏣
+    to: 4日
+  - from: ㏤
+    to: 5日
+  - from: ㏥
+    to: 6日
+  - from: ㏦
+    to: 7日
+  - from: ㏧
+    to: 8日
+  - from: ㏨
+    to: 9日
+  - from: ㏩
+    to: 10日
+  - from: ㏪
+    to: 11日
+  - from: ㏫
+    to: 12日
+  - from: ㏬
+    to: 13日
+  - from: ㏭
+    to: 14日
+  - from: ㏮
+    to: 15日
+  - from: ㏯
+    to: 16日
+  - from: ㏰
+    to: 17日
+  - from: ㏱
+    to: 18日
+  - from: ㏲
+    to: 19日
+  - from: ㏳
+    to: 20日
+  - from: ㏴
+    to: 21日
+  - from: ㏵
+    to: 22日
+  - from: ㏶
+    to: 23日
+  - from: ㏷
+    to: 24日
+  - from: ㏸
+    to: 25日
+  - from: ㏹
+    to: 26日
+  - from: ㏺
+    to: 27日
+  - from: ㏻
+    to: 28日
+  - from: ㏼
+    to: 29日
+  - from: ㏽
+    to: 30日
+  - from: ㏾
+    to: 31日
+  - from: ㏿
+    to: gal
+  - from: ﹣
+    to: ー
+  - from: ！
+    to: "!"
+  - from: ＃
+    to: "#"
+  - from: ＄
+    to: $
+  - from: ％
+    to: "%"
+  - from: ＆
+    to: "&"
+  - from: （
+    to: (
+  - from: ）
+    to: )
+  - from: ＊
+    to: "*"
+  - from: ＋
+    to: +
+  - from: ，
+    to: ","
+  - from: －
+    to: ー
+  - from: ．
+    to: "."
+  - from: ／
+    to: /
+  - from: ０
+    to: "0"
+  - from: １
+    to: "1"
+  - from: ２
+    to: "2"
+  - from: ３
+    to: "3"
+  - from: ４
+    to: "4"
+  - from: ５
+    to: "5"
+  - from: ６
+    to: "6"
+  - from: ７
+    to: "7"
+  - from: ８
+    to: "8"
+  - from: ９
+    to: "9"
+  - from: ：
+    to: ":"
+  - from: ；
+    to: ;
+  - from: ＜
+    to: "<"
+  - from: ＝
+    to: "="
+  - from: ＞
+    to: ">"
+  - from: ？
+    to: "?"
+  - from: ＠
+    to: "@"
+  - from: Ａ
+    to: A
+  - from: Ｂ
+    to: B
+  - from: Ｃ
+    to: C
+  - from: Ｄ
+    to: D
+  - from: Ｅ
+    to: E
+  - from: Ｆ
+    to: F
+  - from: Ｇ
+    to: G
+  - from: Ｈ
+    to: H
+  - from: Ｉ
+    to: I
+  - from: Ｊ
+    to: J
+  - from: Ｋ
+    to: K
+  - from: Ｌ
+    to: L
+  - from: Ｍ
+    to: M
+  - from: Ｎ
+    to: N
+  - from: Ｏ
+    to: O
+  - from: Ｐ
+    to: P
+  - from: Ｑ
+    to: Q
+  - from: Ｒ
+    to: R
+  - from: Ｓ
+    to: S
+  - from: Ｔ
+    to: T
+  - from: Ｕ
+    to: U
+  - from: Ｖ
+    to: V
+  - from: Ｗ
+    to: W
+  - from: Ｘ
+    to: X
+  - from: Ｙ
+    to: Y
+  - from: Ｚ
+    to: Z
+  - from: ［
+    to: "["
+  - from: ＼
+    to: "\\"
+  - from: ］
+    to: "]"
+  - from: ＾
+    to: ^
+  - from: ＿
+    to: _
+  - from: ｀
+    to: "`"
+  - from: ａ
+    to: a
+  - from: ｂ
+    to: b
+  - from: ｃ
+    to: c
+  - from: ｄ
+    to: d
+  - from: ｅ
+    to: e
+  - from: ｆ
+    to: f
+  - from: ｇ
+    to: g
+  - from: ｈ
+    to: h
+  - from: ｉ
+    to: i
+  - from: ｊ
+    to: j
+  - from: ｋ
+    to: k
+  - from: ｌ
+    to: l
+  - from: ｍ
+    to: m
+  - from: ｎ
+    to: n
+  - from: ｏ
+    to: o
+  - from: ｐ
+    to: p
+  - from: ｑ
+    to: q
+  - from: ｒ
+    to: r
+  - from: ｓ
+    to: s
+  - from: ｔ
+    to: t
+  - from: ｕ
+    to: u
+  - from: ｖ
+    to: v
+  - from: ｗ
+    to: w
+  - from: ｘ
+    to: x
+  - from: ｙ
+    to: y
+  - from: ｚ
+    to: z
+  - from: ｛
+    to: "{"
+  - from: ｜
+    to: "|"
+  - from: ｝
+    to: "}"
+  - from: ～
+    to: "~"
+  - from: ｡
+    to: 。
+  - from: ｢
+    to: 「
+  - from: ｣
+    to: 」
+  - from: ､
+    to: 、
+  - from: ･
+    to: ・
+  - from: ｦ
+    to: ヲ
+  - from: ｧ
+    to: ァ
+  - from: ｨ
+    to: ィ
+  - from: ｩ
+    to: ゥ
+  - from: ｪ
+    to: ェ
+  - from: ｫ
+    to: ォ
+  - from: ｬ
+    to: ャ
+  - from: ｭ
+    to: ュ
+  - from: ｮ
+    to: ョ
+  - from: ｯ
+    to: ッ
+  - from: ｰ
+    to: ー
+  - from: ｱ
+    to: ア
+  - from: ｲ
+    to: イ
+  - from: ｳ
+    to: ウ
+  - from: ｴ
+    to: エ
+  - from: ｵ
+    to: オ
+  - from: ｶ
+    to: カ
+  - from: ｷ
+    to: キ
+  - from: ｸ
+    to: ク
+  - from: ｹ
+    to: ケ
+  - from: ｺ
+    to: コ
+  - from: ｻ
+    to: サ
+  - from: ｼ
+    to: シ
+  - from: ｽ
+    to: ス
+  - from: ｾ
+    to: セ
+  - from: ｿ
+    to: ソ
+  - from: ﾀ
+    to: タ
+  - from: ﾁ
+    to: チ
+  - from: ﾂ
+    to: ツ
+  - from: ﾃ
+    to: テ
+  - from: ﾄ
+    to: ト
+  - from: ﾅ
+    to: ナ
+  - from: ﾆ
+    to: ニ
+  - from: ﾇ
+    to: ヌ
+  - from: ﾈ
+    to: ネ
+  - from: ﾉ
+    to: ノ
+  - from: ﾊ
+    to: ハ
+  - from: ﾋ
+    to: ヒ
+  - from: ﾌ
+    to: フ
+  - from: ﾍ
+    to: ヘ
+  - from: ﾎ
+    to: ホ
+  - from: ﾏ
+    to: マ
+  - from: ﾐ
+    to: ミ
+  - from: ﾑ
+    to: ム
+  - from: ﾒ
+    to: メ
+  - from: ﾓ
+    to: モ
+  - from: ﾔ
+    to: ヤ
+  - from: ﾕ
+    to: ユ
+  - from: ﾖ
+    to: ヨ
+  - from: ﾗ
+    to: ラ
+  - from: ﾘ
+    to: リ
+  - from: ﾙ
+    to: ル
+  - from: ﾚ
+    to: レ
+  - from: ﾛ
+    to: ロ
+  - from: ﾜ
+    to: ワ
+  - from: ﾝ
+    to: ン
