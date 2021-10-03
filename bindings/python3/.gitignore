@@ -1,3 +1,8 @@
 /target
 **/target
 **/__pycache__/
+**/*.egg-info/
+build/
+*.so
+dist/
+pip_install*.log
