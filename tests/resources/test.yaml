@@ -1,0 +1,20 @@
+---
+items:
+  A: a
+  B: b
+  C:
+    - c
+    - sea
+    - see
+modifiers:
+  character_converter:
+    D: d
+    E: e
+  character_eliminator:
+    ["~", ∼, ∾, 〜, 〰, ～]
+  consecutive_character_reducer: ー
+  dotted_space_eliminator:
+  trim:
+  ligature_translator:
+    ハ゜: パ
+  neologdn:
