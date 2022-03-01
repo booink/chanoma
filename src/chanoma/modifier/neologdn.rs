@@ -1,12 +1,12 @@
 use crate::chanoma::characters_set::prelude::*;
 use crate::chanoma::corr::{Correspondence, Unification};
+use crate::chanoma::error::Error;
+use crate::chanoma::modifier::ModifierFromYamlValue;
 use crate::chanoma::modifier::{
     CharacterConverter, CharacterEliminator, ConsecutiveCharacterReducer, DottedSpaceEliminator,
     LigatureTranslator, ModifiedData, Modifier,
 };
 use crate::chanoma::modifier_kind::ModifierKind;
-use crate::chanoma::error::ErrorKind;
-use crate::chanoma::modifier::ModifierFromYamlValue;
 use crate::chanoma::table::{Origin, Table};
 use std::collections::HashMap;
 use std::str::FromStr;
@@ -38,27 +38,35 @@ impl Modifier for Neologdn {
             .character_eliminator
             .modify_with_positions(&result.text);
         let result = self.ligature_translator.modify_with_positions(&result.text);
-        ModifiedData::new(ModifierKind::Neologdn(self.clone()), result.text, result.positions)
+        ModifiedData::new(
+            ModifierKind::Neologdn(self.clone()),
+            result.text,
+            result.positions,
+        )
     }
 }
 
 impl ModifierFromYamlValue for Neologdn {
-    fn from_yaml_value(value: &serde_yaml::Value) -> Result<Self, ErrorKind> {
+    fn from_yaml_value(value: &serde_yaml::Value) -> Result<Self, Error> {
         if value.is_null() {
             Ok(Self::new())
         } else {
-            Err(ErrorKind::ModifierKindParseError("Cannot specify a value.".to_string()))
+            Err(Error::ModifierKindParseError(
+                "Cannot specify a value.".to_string(),
+            ))
         }
     }
 }
 
 impl FromStr for Neologdn {
-    type Err = ErrorKind;
+    type Err = Error;
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         if s.is_empty() {
             Ok(Self::new())
         } else {
-            Err(ErrorKind::ModifierKindParseError("Cannot specify a value.".to_string()))
+            Err(Error::ModifierKindParseError(
+                "Cannot specify a value.".to_string(),
+            ))
         }
     }
 }
@@ -142,7 +150,11 @@ const CHOONPUS: Correspondence<Unification> =
 // ハイフン
 const HYPHENS: Correspondence<Unification> =
     //Unification::new(&["˗", "֊", "‐", "‑", "‒", "–", "⁃", "⁻", "₋", "−"], "-").corr();
-    Unification::new(&["˗", "֊", "‐", "‑", "‒", "–", "⁃", "⁻", "₋", "−", "－"], "-").corr();
+    Unification::new(
+        &["˗", "֊", "‐", "‑", "‒", "–", "⁃", "⁻", "₋", "−", "－"],
+        "-",
+    )
+    .corr();
 
 impl Neologdn {
     pub fn new() -> Self {

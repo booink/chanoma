@@ -6,9 +6,9 @@ pub mod ligature_translator;
 pub mod neologdn;
 pub mod trim;
 
+use crate::chanoma::error::Error;
 use crate::chanoma::modifier_kind::ModifierKind;
 use crate::chanoma::position::Position;
-use crate::chanoma::error::ErrorKind;
 pub use character_converter::CharacterConverter;
 pub use character_eliminator::CharacterEliminator;
 pub use consecutive_character_reducer::ConsecutiveCharacterReducer;
@@ -40,5 +40,7 @@ impl ModifiedData {
 }
 
 pub trait ModifierFromYamlValue {
-    fn from_yaml_value(value: &serde_yaml::Value) -> Result<Self, ErrorKind> where Self: Sized;
+    fn from_yaml_value(value: &serde_yaml::Value) -> Result<Self, Error>
+    where
+        Self: Sized;
 }

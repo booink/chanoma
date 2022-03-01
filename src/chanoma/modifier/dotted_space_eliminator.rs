@@ -1,8 +1,8 @@
 use super::{ModifiedData, Modifier};
-use crate::chanoma::modifier_kind::ModifierKind;
+use crate::chanoma::error::Error;
 use crate::chanoma::modifier::ModifierFromYamlValue;
+use crate::chanoma::modifier_kind::ModifierKind;
 use crate::chanoma::position::Position;
-use crate::chanoma::error::ErrorKind;
 use std::str::FromStr;
 
 // 『「半角英数字」と「半角英数字」の間の半角スペース』以外の半角スペースを削除する
@@ -47,22 +47,24 @@ impl Modifier for DottedSpaceEliminator {
 }
 
 impl ModifierFromYamlValue for DottedSpaceEliminator {
-    fn from_yaml_value(value: &serde_yaml::Value) -> Result<Self, ErrorKind> {
+    fn from_yaml_value(value: &serde_yaml::Value) -> Result<Self, Error> {
         if value.is_null() {
             Ok(Self::new())
         } else {
-            Err(ErrorKind::ModifierKindParseError("Cannot specify a value.".to_string()))
+            Err(Error::ModifierKindParseError(
+                "Cannot specify a value.".to_string(),
+            ))
         }
     }
 }
 
 impl FromStr for DottedSpaceEliminator {
-    type Err = ErrorKind;
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    type Err = anyhow::Error;
+    fn from_str(s: &str) -> anyhow::Result<Self> {
         if s.is_empty() {
             Ok(Self::new())
         } else {
-            Err(ErrorKind::ModifierKindParseError("Cannot specify a value.".to_string()))
+            Err(Error::ModifierKindParseError("Cannot specify a value.".to_string()).into())
         }
     }
 }

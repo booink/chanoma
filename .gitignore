@@ -1,6 +1,8 @@
 /target
 **/target
 Cargo.lock
+.vscode/
+.devcontainer/
 
 # Added by cargo
 #

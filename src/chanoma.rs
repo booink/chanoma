@@ -1,13 +1,13 @@
 pub mod characters_set;
 mod configuration;
 pub mod corr;
+pub mod error;
 pub mod file;
 pub mod file_extension;
 mod modifier;
 mod modifier_kind;
 pub mod position;
 pub mod table;
-pub mod error;
 
 use configuration::Configuration;
 use modifier::{CharacterConverter, ModifiedData, Modifier, Neologdn};
@@ -44,17 +44,10 @@ impl Chanoma {
     }
 
     pub fn add_table(&mut self, table: Table) -> &mut Self {
-        self.modifiers.push(CharacterConverter::from_tables(vec![table]).into());
+        self.modifiers
+            .push(CharacterConverter::from_tables(vec![table]).into());
         self
     }
-
-    /*
-    pub fn from_modifier(modifier: Box<dyn Modifier>) -> Self {
-        Self {
-            modifiers: vec![modifier.into()],
-        }
-    }
-    */
 
     pub fn from_modifier_kind(modifier_kind: ModifierKind) -> Self {
         Self {
@@ -87,13 +80,6 @@ impl Chanoma {
         self.modifiers.push(Neologdn::new().into());
         self
     }
-
-    /*
-    pub fn add_modifier(&mut self, modifier: Box<dyn Modifier>) -> &mut Self {
-        self.modifiers.push(modifier.into());
-        self
-    }
-    */
 
     pub fn add_modifier_kind(&mut self, modifier_kind: ModifierKind) -> &mut Self {
         self.modifiers.push(modifier_kind);
