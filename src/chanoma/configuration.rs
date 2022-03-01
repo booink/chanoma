@@ -1,8 +1,9 @@
+use super::error::Error;
 use super::file::*;
 use super::file_extension::FileExtension;
 use super::modifier::CharacterConverter;
 use super::modifier_kind::ModifierKind;
-use super::error::ErrorKind;
+use anyhow::bail;
 use std::env;
 use std::path::{Path, PathBuf};
 use strum::IntoEnumIterator;
@@ -19,19 +20,31 @@ impl Configuration {
         Self { debug }
     }
 
-    fn file_paths(&self) -> Result<Vec<PathBuf>, ErrorKind> {
+    fn file_paths(&self) -> anyhow::Result<Vec<PathBuf>> {
         // 環境変数が指定されていたら、そのパスだけを返す
         if let Some(path) = file_path_from_env(Self::ENV_NAME) {
             if self.debug {
-                println!("{}: {:?}; (exists: {:?})", Self::ENV_NAME, path, path.exists());
+                log::debug!(
+                    "{}: {:?}; (exists: {:?})",
+                    Self::ENV_NAME,
+                    path,
+                    path.exists()
+                );
             }
             return valid_file_path(path);
         }
 
-        Ok(exists_file_paths(auto_load_dirs(), auto_load_paths_from_dir))
+        Ok(exists_file_paths(
+            auto_load_dirs(),
+            auto_load_paths_from_dir,
+        ))
     }
 
-    fn load_items_to_character_converter(&self, path: &Path, ext: &FileExtension) -> anyhow::Result<CharacterConverter> {
+    fn load_items_to_character_converter(
+        &self,
+        path: &Path,
+        ext: &FileExtension,
+    ) -> anyhow::Result<CharacterConverter> {
         let table = match ext {
             FileExtension::Csv => table_from_csv_path(path)?,
             FileExtension::Yaml => table_from_yaml_path(path)?,
@@ -40,7 +53,11 @@ impl Configuration {
         Ok(CharacterConverter::from_tables(vec![table]))
     }
 
-    fn load_modifiers(&self, path: &Path, ext: &FileExtension) -> anyhow::Result<Vec<ModifierKind>> {
+    fn load_modifiers(
+        &self,
+        path: &Path,
+        ext: &FileExtension,
+    ) -> anyhow::Result<Vec<ModifierKind>> {
         let modifier_kinds = match ext {
             FileExtension::Yaml => modifiers_from_yaml_path(path)?,
             //FileExtension::Json => modifiers_from_json_path(path)?,
@@ -60,7 +77,7 @@ impl Configuration {
     pub fn load(&self) -> anyhow::Result<Vec<ModifierKind>> {
         let file_paths = self.file_paths()?;
         if self.debug {
-            println!("load files: {:?}", &file_paths);
+            log::debug!("load files: {:?}", &file_paths);
         }
 
         if file_paths.is_empty() {
@@ -86,20 +103,21 @@ impl Configuration {
 
 fn file_path_from_env(env_name: &str) -> Option<PathBuf> {
     // 環境変数が指定されていたらパスを返す
-    if let Ok(path) = env::var(env_name) { // Configuration::ENV_NAME
+    if let Ok(path) = env::var(env_name) {
+        // Configuration::ENV_NAME
         return Some(PathBuf::from(path));
     }
     None
 }
 
-fn valid_file_path(path: PathBuf) -> Result<Vec<PathBuf>, ErrorKind> {
+fn valid_file_path(path: PathBuf) -> anyhow::Result<Vec<PathBuf>> {
     // 指定したファイルが設定ファイルとして使用可能であればパス情報を返す
     if !path.is_file() {
-        return Err(ErrorKind::RcFileLoadError(path));
+        bail!(Error::RcFileLoadError(path))
     }
     let extension = String::from(path.extension().unwrap().to_str().unwrap());
     if FileExtension::iter().all(|ext| ext.to_string() != extension) {
-        return Err(ErrorKind::RcFileLoadError(path));
+        bail!(Error::RcFileLoadError(path))
     }
     Ok(vec![path])
 }
@@ -137,7 +155,10 @@ fn auto_load_paths_from_dir(dir: &PathBuf) -> Vec<PathBuf> {
         .collect()
 }
 
-fn exists_file_paths<F>(load_dirs: Vec<PathBuf>, expand: F) -> Vec<PathBuf> where F: FnMut(&PathBuf) -> Vec<PathBuf> {
+fn exists_file_paths<F>(load_dirs: Vec<PathBuf>, expand: F) -> Vec<PathBuf>
+where
+    F: FnMut(&PathBuf) -> Vec<PathBuf>,
+{
     // 存在するパスに絞り込む
     load_dirs
         .iter()
@@ -176,21 +197,33 @@ mod tests {
         fn nonexistent_file_path() {
             // 存在しないファイルパスが指定された場合はエラーを返す
             let path = PathBuf::from("/--------a--------");
-            assert_eq!(valid_file_path(path.clone()), Err(ErrorKind::RcFileLoadError(path)));
+            assert_eq!(
+                valid_file_path(path.clone())
+                    .unwrap_err()
+                    .downcast::<Error>()
+                    .unwrap(),
+                Error::RcFileLoadError(path)
+            );
         }
 
         #[test]
         fn existent_file_path_and_no_target_file_extension() {
             // 対応拡張子のファイルが存在しないディレクトリパスが指定された場合はエラーを返す
             let path = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("src/lib.rs");
-            assert_eq!(valid_file_path(path.clone()), Err(ErrorKind::RcFileLoadError(path)));
+            assert_eq!(
+                valid_file_path(path.clone())
+                    .unwrap_err()
+                    .downcast::<Error>()
+                    .unwrap(),
+                Error::RcFileLoadError(path)
+            );
         }
 
         #[test]
         fn existent_file_path() {
             // 存在するファイルパスが指定された場合はVecを返す
             let path = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/resources/test.csv");
-            assert_eq!(valid_file_path(path.clone()), Ok(vec![path]));
+            assert_eq!(valid_file_path(path.clone()).unwrap(), vec![path]);
         }
     }
 
@@ -204,11 +237,14 @@ mod tests {
             let paths = auto_load_dirs();
             let mut dot_config_chanoma = dirs::home_dir().unwrap();
             dot_config_chanoma.push(".config/chanoma");
-            assert_eq!(paths, vec![
-                dot_config_chanoma,
-                dirs::home_dir().unwrap(),
-                env::current_dir().unwrap(),
-            ]);
+            assert_eq!(
+                paths,
+                vec![
+                    dot_config_chanoma,
+                    dirs::home_dir().unwrap(),
+                    env::current_dir().unwrap(),
+                ]
+            );
         }
     }
 
@@ -230,6 +266,7 @@ mod tests {
     mod exists_file_paths {
         use super::*;
 
+        #[allow(clippy::ptr_arg)]
         fn dummy_paths(dir: &PathBuf) -> Vec<PathBuf> {
             let mut path = dir.clone();
             path.push("test.csv");
@@ -247,15 +284,22 @@ mod tests {
         #[test]
         fn existent_file_path_and_no_target_file_extension() {
             // 対応拡張子のファイルが存在しないディレクトリパスが指定された場合は空のVecが返る
-            let result = exists_file_paths(vec![PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("src")], dummy_paths);
+            let result = exists_file_paths(
+                vec![PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("src")],
+                dummy_paths,
+            );
             assert_eq!(result, Vec::new() as Vec<PathBuf>);
         }
 
         #[test]
         fn existent_file_path_and_target_file_extension() {
             // 対応ファイルが存在するディレクトリパスが指定された場合はVecが返る
-            let result = exists_file_paths(vec![PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/resources")], dummy_paths);
-            let vec = vec![PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/resources/test.csv")];
+            let result = exists_file_paths(
+                vec![PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/resources")],
+                dummy_paths,
+            );
+            let vec =
+                vec![PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/resources/test.csv")];
             assert_eq!(result, vec);
         }
     }

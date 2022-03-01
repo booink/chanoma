@@ -77,7 +77,7 @@ impl<T: Corr> Deref for Correspondence<T> {
 
 impl<T: Corr> AsRef<Correspondence<T>> for Correspondence<T> {
     fn as_ref(&self) -> &Correspondence<T> {
-        &self
+        self
     }
 }
 

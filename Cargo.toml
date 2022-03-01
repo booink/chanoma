@@ -2,7 +2,7 @@
 name = "chanoma"
 version = "0.1.0"
 authors = ["booink <booink.work@gmail.com>"]
-edition = "2018"
+edition = "2021"
 
 [lib]
 name = "chanoma"
@@ -14,13 +14,15 @@ path = "src/main.rs"
 [dependencies]
 serde = { version = "1.0", features = ["derive"] }
 serde_yaml = "0.8"
-clap = "3.0.0-beta.2"
+clap = { version = "3.1.2", features = ["derive"] }
 csv = "1.1"
 anyhow = "1.0"
 thiserror = "1.0"
-strum = { version = "0.20", features = ["derive"] }
-strum_macros = "0.20"
-dirs = "3.0"
+strum = { version = "0.24", features = ["derive"] }
+strum_macros = "0.24"
+dirs = "4.0"
+log = "0.4"
+env_logger = "0.9"
 
 [dev-dependencies]
 env-test-util = "1.0"

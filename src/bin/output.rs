@@ -2,7 +2,7 @@ use chanoma::{
     chanoma::file::{to_csv_writer, to_serialized_corr},
     Table, TableBuilder,
 };
-use clap::Clap;
+use clap::Parser;
 use std::error::Error;
 
 enum Format {
@@ -35,11 +35,8 @@ impl Format {
     }
 }
 
-#[derive(Clap)]
-#[clap(
-    version = "0.1.0",
-    author = "booink <booink.work@gmail.com>"
-)]
+#[derive(Parser)]
+#[clap(version = "0.1.0", author = "booink <booink.work@gmail.com>")]
 struct Opts {
     #[clap(short, long, default_value = "csv")]
     format: String,

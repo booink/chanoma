@@ -1,0 +1,35 @@
+[config]
+default_to_workspace = false
+
+[tasks.default]
+alias = "test-watch"
+
+[tasks.test-watch]
+watch = true
+command = "cargo"
+args = ["test", "--", "--nocapture"]
+
+[tasks.clippy]
+install_crate = { rustup_component_name = "clippy" }
+command = "cargo"
+args = ["clippy"]
+
+[tasks.clippy-watch]
+watch = true
+dependencies = ["clippy"]
+
+[tasks.fmt]
+install_crate = { rustup_component_name = "rustfmt" }
+command = "cargo"
+args = ["fmt"]
+
+[tasks.fmt-watch]
+watch = true
+dependencies = ["fmt"]
+
+[tasks.all]
+dependencies = ["test", "clippy", "fmt"]
+
+[tasks.all-watch]
+watch = true
+dependencies = ["all"]

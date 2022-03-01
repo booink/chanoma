@@ -1,8 +1,8 @@
 use super::{ModifiedData, Modifier};
-use crate::chanoma::modifier_kind::ModifierKind;
+use crate::chanoma::error::Error;
 use crate::chanoma::modifier::ModifierFromYamlValue;
+use crate::chanoma::modifier_kind::ModifierKind;
 use crate::chanoma::position::Position;
-use crate::chanoma::error::ErrorKind;
 use std::collections::HashMap;
 use std::str::FromStr;
 
@@ -32,7 +32,7 @@ impl Modifier for LigatureTranslator {
 }
 
 impl ModifierFromYamlValue for LigatureTranslator {
-    fn from_yaml_value(value: &serde_yaml::Value) -> Result<Self, ErrorKind> {
+    fn from_yaml_value(value: &serde_yaml::Value) -> Result<Self, Error> {
         let map = value
             .as_mapping()
             .unwrap()
@@ -48,20 +48,22 @@ impl ModifierFromYamlValue for LigatureTranslator {
 }
 
 impl FromStr for LigatureTranslator {
-    type Err = ErrorKind;
+    type Err = Error;
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         // ligature_translator(ハ゜,パ)
-        let strs = s
-            .split(',')
-            .into_iter()
-            .collect::<Vec<&str>>();
+        let strs = s.split(',').into_iter().collect::<Vec<&str>>();
         if strs.len() != 2 {
-            return Err(ErrorKind::ModifierKindParseError("Only two values.".to_string()));
+            return Err(Error::ModifierKindParseError(
+                "Only two values.".to_string(),
+            ));
         }
         let mut strs = strs.iter();
-        let map = vec![(strs.next().unwrap().to_string(), strs.next().unwrap().to_string())]
-            .into_iter()
-            .collect::<HashMap<String, String>>();
+        let map = vec![(
+            strs.next().unwrap().to_string(),
+            strs.next().unwrap().to_string(),
+        )]
+        .into_iter()
+        .collect::<HashMap<String, String>>();
         Ok(Self::from_map(map))
     }
 }

@@ -1,8 +1,8 @@
-use thiserror::Error;
 use std::path::PathBuf;
+use thiserror::Error;
 
 #[derive(Debug, Error, PartialEq, Eq)]
-pub enum ErrorKind {
+pub enum Error {
     #[error("CSVFileLoadError: {0}")]
     CsvFileLoadError(String),
     #[error("YamlFileLoadError: {0}")]

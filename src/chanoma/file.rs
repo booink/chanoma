@@ -1,8 +1,8 @@
 use super::corr::{Corr, Correspondence, Item, Synthesized};
+use super::modifier_kind::ModifierKind;
 use super::table::{Origin, Table};
 use serde::Serialize;
 use std::collections::BTreeMap;
-use super::modifier_kind::ModifierKind;
 use std::fs::File;
 use std::io::Write;
 use std::path::Path;
@@ -28,7 +28,7 @@ pub fn table_from_csv_path(path: impl AsRef<Path>) -> anyhow::Result<Table> {
 pub fn to_csv_writer<T: Corr, W: Write>(corr: &Correspondence<T>, writer: W) -> csv::Writer<W> {
     let mut wtr = csv::WriterBuilder::new().flexible(true).from_writer(writer);
     for (to, froms) in Synthesized::from(corr).item_map().iter_mut() {
-        froms.push(&to);
+        froms.push(to);
         wtr.write_record(froms).unwrap();
     }
     wtr
@@ -172,11 +172,14 @@ mod test {
 
     mod modifiers_from_yaml_path {
         use super::*;
-        use crate::chanoma::modifier_kind::ModifierKind;
         use crate::chanoma::modifier::dotted_space_eliminator::DottedSpaceEliminator;
-        use crate::chanoma::modifier::trim::Trim;
         use crate::chanoma::modifier::neologdn::Neologdn;
-        use crate::{character_converter, character_eliminator, consecutive_character_reducer, ligature_translator};
+        use crate::chanoma::modifier::trim::Trim;
+        use crate::chanoma::modifier_kind::ModifierKind;
+        use crate::{
+            character_converter, character_eliminator, consecutive_character_reducer,
+            ligature_translator,
+        };
 
         #[test]
         fn success_to_load_yaml() {
@@ -187,12 +190,14 @@ mod test {
             assert_eq!(
                 result.unwrap(),
                 vec![
-                    ModifierKind::CharacterConverter(character_converter!{'D' => 'd', 'E' => 'e'}),
-                    ModifierKind::CharacterEliminator(character_eliminator!['~', '∼', '∾', '〜', '〰', '～']),
+                    ModifierKind::CharacterConverter(character_converter! {'D' => 'd', 'E' => 'e'}),
+                    ModifierKind::CharacterEliminator(character_eliminator![
+                        '~', '∼', '∾', '〜', '〰', '～'
+                    ]),
                     ModifierKind::ConsecutiveCharacterReducer(consecutive_character_reducer!('ー')),
                     ModifierKind::DottedSpaceEliminator(DottedSpaceEliminator::new()),
                     ModifierKind::Trim(Trim::new()),
-                    ModifierKind::LigatureTranslator(ligature_translator!{"ハ゜" => 'パ'}),
+                    ModifierKind::LigatureTranslator(ligature_translator! {"ハ゜" => 'パ'}),
                     ModifierKind::Neologdn(Neologdn::new()),
                 ],
             );
