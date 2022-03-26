@@ -27,8 +27,16 @@ args = ["fmt"]
 watch = true
 dependencies = ["fmt"]
 
+[tasks.doc]
+command = "cargo"
+args = ["doc", "--no-deps"]
+
+[tasks.doc-watch]
+watch = true
+dependencies = ["doc"]
+
 [tasks.all]
-dependencies = ["test", "clippy", "fmt"]
+dependencies = ["test", "clippy", "fmt", "doc"]
 
 [tasks.all-watch]
 watch = true

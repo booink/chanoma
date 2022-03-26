@@ -3,3 +3,5 @@ services:
   chanoma:
     build:
       context: .
+    volumes:
+      - .:/app

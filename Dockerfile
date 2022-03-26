@@ -57,4 +57,4 @@ ADD --chown=${USER}:${GROUP} . .
 #    python3 -m pip --verbose install --user -e .
 
 USER root
-CMD ["cargo", "watch", "-x", "test", "-x", "clippy"]
+# CMD ["cargo", "watch", "-x", "test", "-x", "clippy"]
