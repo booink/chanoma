@@ -1,9 +1,9 @@
-use super::{ModifiedData, Modifier};
-use crate::chanoma::error::Error;
-use crate::chanoma::modifier::ModifierFromYamlValue;
-use crate::chanoma::modifier_kind::ModifierKind;
-use crate::chanoma::position::Position;
-use crate::chanoma::table::Table;
+use super::{ModifiedRecord, Modifier};
+use crate::error::Error;
+use crate::modifier::ModifierFromYamlValue;
+use crate::modifier_kind::ModifierKind;
+use crate::position::Position;
+use crate::table::Table;
 use std::collections::HashMap;
 use std::mem;
 use std::str::FromStr;
@@ -59,7 +59,7 @@ impl Modifier for CharacterConverter {
         refs.into_iter().collect::<String>()
     }
 
-    fn modify_with_positions(&self, input: &str) -> ModifiedData {
+    fn modify_with_positions(&self, input: &str) -> ModifiedRecord {
         // 文字をhashsetに登録して、そのインデックスか参照を配列に登録する
         // 正規化対象の文字をHashSetで入れ替える
         // 配列から元の文字列に直していく
@@ -91,7 +91,7 @@ impl Modifier for CharacterConverter {
             }
         }
 
-        ModifiedData::new(
+        ModifiedRecord::new(
             ModifierKind::CharacterConverter(self.clone()),
             refs.into_iter().collect::<String>(),
             positions,
@@ -179,6 +179,6 @@ macro_rules! character_converter {
         $(
             map.insert($from, $to);
         )*
-        crate::chanoma::modifier::character_converter::CharacterConverter::from_map(map)
+        crate::modifier::character_converter::CharacterConverter::from_map(map)
     }};
 }

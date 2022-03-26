@@ -9,6 +9,7 @@ use std::collections::{BTreeMap, HashSet};
 use std::ops::Deref;
 use std::ops::{Add, AddAssign, Sub, SubAssign};
 
+/// [Item] の集合を表すための trait
 pub trait Corr {
     fn items(&self) -> Vec<Item>;
 
@@ -38,6 +39,12 @@ impl Corr for Synthesized {
     }
 }
 
+impl Default for Synthesized {
+    fn default() -> Self {
+        Self::new(Vec::new())
+    }
+}
+
 impl Synthesized {
     pub const fn new(items: Vec<Item>) -> Self {
         Self { items }
@@ -60,6 +67,12 @@ impl Synthesized {
 #[derive(Debug, Clone)]
 pub struct Correspondence<T> {
     inner: T,
+}
+
+impl<Synthesized: Default> Default for Correspondence<Synthesized> {
+    fn default() -> Self {
+        Self::new(Synthesized::default())
+    }
 }
 
 impl<T> Correspondence<T> {

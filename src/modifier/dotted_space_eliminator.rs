@@ -1,8 +1,8 @@
-use super::{ModifiedData, Modifier};
-use crate::chanoma::error::Error;
-use crate::chanoma::modifier::ModifierFromYamlValue;
-use crate::chanoma::modifier_kind::ModifierKind;
-use crate::chanoma::position::Position;
+use super::{ModifiedRecord, Modifier};
+use crate::error::Error;
+use crate::modifier::ModifierFromYamlValue;
+use crate::modifier_kind::ModifierKind;
+use crate::position::Position;
 use std::str::FromStr;
 
 // 『「半角英数字」と「半角英数字」の間の半角スペース』以外の半角スペースを削除する
@@ -36,9 +36,9 @@ impl Modifier for DottedSpaceEliminator {
         text
     }
 
-    fn modify_with_positions(&self, input: &str) -> ModifiedData {
+    fn modify_with_positions(&self, input: &str) -> ModifiedRecord {
         let positions: Vec<Position> = vec![];
-        ModifiedData::new(
+        ModifiedRecord::new(
             ModifierKind::DottedSpaceEliminator(self.clone()),
             self.modify(input),
             positions,

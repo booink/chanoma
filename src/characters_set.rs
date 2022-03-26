@@ -6,18 +6,21 @@ pub mod prelude;
 pub mod punctuations;
 
 use alphabets::ALPHABETS;
-use cjk_compatibilities::CJK_COMPATIBILITIES;
 use digits::DIGITS;
 use kanas::KANAS;
 use punctuations::PUNCTUATIONS;
 
-use crate::chanoma::corr::{Corr, Correspondence, Item};
+#[allow(unused_imports)]
+use cjk_compatibilities::CJK_COMPATIBILITIES;
+
+use crate::corr::{Corr, Correspondence, Item};
 
 pub struct All;
 
 impl Corr for All {
     fn items(&self) -> Vec<Item> {
-        (DIGITS + &PUNCTUATIONS + &ALPHABETS + &KANAS + &CJK_COMPATIBILITIES).items()
+        // TODO: CJK_COMPATIBILITIES は「一文字→複数文字列」なので、charactor_converterにpresetできない。別の Modifier を作って対応する
+        (DIGITS + &PUNCTUATIONS + &ALPHABETS + &KANAS).items()
     }
 }
 

@@ -6,9 +6,9 @@ pub mod ligature_translator;
 pub mod neologdn;
 pub mod trim;
 
-use crate::chanoma::error::Error;
-use crate::chanoma::modifier_kind::ModifierKind;
-use crate::chanoma::position::Position;
+use crate::error::Error;
+use crate::modifier_kind::ModifierKind;
+use crate::position::Position;
 pub use character_converter::CharacterConverter;
 pub use character_eliminator::CharacterEliminator;
 pub use consecutive_character_reducer::ConsecutiveCharacterReducer;
@@ -19,17 +19,17 @@ pub use trim::Trim;
 
 pub trait Modifier {
     fn modify(&self, text: &str) -> String;
-    fn modify_with_positions(&self, text: &str) -> ModifiedData;
+    fn modify_with_positions(&self, text: &str) -> ModifiedRecord;
 }
 
 #[derive(Clone, Debug)]
-pub struct ModifiedData {
+pub struct ModifiedRecord {
     pub kind: ModifierKind,
     pub text: String,
     pub positions: Vec<Position>,
 }
 
-impl ModifiedData {
+impl ModifiedRecord {
     pub fn new(kind: ModifierKind, text: String, positions: Vec<Position>) -> Self {
         Self {
             kind,

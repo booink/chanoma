@@ -1,13 +1,14 @@
 use super::corr::{Corr, Correspondence, Item, Synthesized};
 use super::modifier_kind::ModifierKind;
 use super::table::{Origin, Table};
+use crate::ChanomaResult;
 use serde::Serialize;
 use std::collections::BTreeMap;
 use std::fs::File;
 use std::io::Write;
 use std::path::Path;
 
-pub fn table_from_csv_path(path: impl AsRef<Path>) -> anyhow::Result<Table> {
+pub fn table_from_csv_path(path: impl AsRef<Path>) -> ChanomaResult<Table> {
     let path = path.as_ref();
     let mut rdr = csv::ReaderBuilder::new().flexible(true).from_path(path)?;
     let mut items = Vec::new();
@@ -21,7 +22,7 @@ pub fn table_from_csv_path(path: impl AsRef<Path>) -> anyhow::Result<Table> {
     }
     Ok(Table::from_corr(
         Correspondence::new(Synthesized::new(items)),
-        Origin::ConfigurationFile(path.to_str().unwrap().to_string()),
+        Origin::ConfigurationFile(path.to_path_buf()),
     ))
 }
 
@@ -34,7 +35,7 @@ pub fn to_csv_writer<T: Corr, W: Write>(corr: &Correspondence<T>, writer: W) -> 
     wtr
 }
 
-pub fn table_from_yaml_path(path: impl AsRef<Path>) -> anyhow::Result<Table> {
+pub fn table_from_yaml_path(path: impl AsRef<Path>) -> ChanomaResult<Table> {
     let path = path.as_ref();
     let data: serde_yaml::Value = serde_yaml::from_reader(File::open(path)?)?;
     let mut items = Vec::new();
@@ -51,11 +52,11 @@ pub fn table_from_yaml_path(path: impl AsRef<Path>) -> anyhow::Result<Table> {
     }
     Ok(Table::from_corr(
         Correspondence::new(Synthesized::new(items)),
-        Origin::ConfigurationFile(path.to_str().unwrap().to_string()),
+        Origin::ConfigurationFile(path.to_path_buf()),
     ))
 }
 
-pub fn modifiers_from_yaml_path(path: impl AsRef<Path>) -> anyhow::Result<Vec<ModifierKind>> {
+pub fn modifiers_from_yaml_path(path: impl AsRef<Path>) -> ChanomaResult<Vec<ModifierKind>> {
     let path = path.as_ref();
     let data: serde_yaml::Value = serde_yaml::from_reader(File::open(path)?)?;
     let mut modifiers = Vec::new();
@@ -66,12 +67,6 @@ pub fn modifiers_from_yaml_path(path: impl AsRef<Path>) -> anyhow::Result<Vec<Mo
     }
     Ok(modifiers)
 }
-
-/*
-pub fn table_from_json_path(path: impl AsRef<Path>) -> anyhow::Result<Table> {
-    table_from_yaml_path(path)
-}
-*/
 
 #[derive(Serialize)]
 pub struct SerializedCorr {
@@ -172,10 +167,10 @@ mod test {
 
     mod modifiers_from_yaml_path {
         use super::*;
-        use crate::chanoma::modifier::dotted_space_eliminator::DottedSpaceEliminator;
-        use crate::chanoma::modifier::neologdn::Neologdn;
-        use crate::chanoma::modifier::trim::Trim;
-        use crate::chanoma::modifier_kind::ModifierKind;
+        use crate::modifier::dotted_space_eliminator::DottedSpaceEliminator;
+        use crate::modifier::neologdn::Neologdn;
+        use crate::modifier::trim::Trim;
+        use crate::modifier_kind::ModifierKind;
         use crate::{
             character_converter, character_eliminator, consecutive_character_reducer,
             ligature_translator,

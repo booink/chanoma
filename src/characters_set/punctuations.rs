@@ -1,4 +1,4 @@
-use crate::chanoma::corr::{Corr, Correspondence, Item, Linear};
+use crate::corr::{Corr, Correspondence, Item, Linear};
 
 #[derive(Clone)]
 pub struct Punctuations;
