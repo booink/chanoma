@@ -1,9 +1,9 @@
 use super::{ModifiedData, Modifier};
-use crate::chanoma::modifier_kind::ModifierKind;
+use crate::chanoma::error::Error;
 use crate::chanoma::modifier::ModifierFromYamlValue;
+use crate::chanoma::modifier_kind::ModifierKind;
 use crate::chanoma::position::Position;
 use crate::chanoma::table::Table;
-use crate::chanoma::error::ErrorKind;
 use std::collections::HashMap;
 use std::mem;
 use std::str::FromStr;
@@ -100,7 +100,7 @@ impl Modifier for CharacterConverter {
 }
 
 impl ModifierFromYamlValue for CharacterConverter {
-    fn from_yaml_value(value: &serde_yaml::Value) -> Result<Self, ErrorKind> {
+    fn from_yaml_value(value: &serde_yaml::Value) -> Result<Self, Error> {
         let map = value
             .as_mapping()
             .unwrap()
@@ -116,13 +116,14 @@ impl ModifierFromYamlValue for CharacterConverter {
 }
 
 impl FromStr for CharacterConverter {
-    type Err = ErrorKind;
+    type Err = Error;
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let chars = s
             .split(',')
             .into_iter()
             .filter_map(|st| {
-                let cs = st.trim()
+                let cs = st
+                    .trim()
                     .split(':')
                     .into_iter()
                     .filter_map(|c| c.trim().to_string().chars().next())
@@ -136,7 +137,9 @@ impl FromStr for CharacterConverter {
             })
             .collect::<Vec<(char, char)>>();
         if chars.is_empty() {
-            return Err(ErrorKind::ModifierKindParseError("specified empty chars.".to_string()));
+            return Err(Error::ModifierKindParseError(
+                "specified empty chars.".to_string(),
+            ));
         }
         let chars = chars.into_iter().collect::<HashMap<char, char>>();
         Ok(Self::from_map(chars))

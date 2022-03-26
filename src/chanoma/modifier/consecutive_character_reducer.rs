@@ -1,8 +1,8 @@
 use super::{ModifiedData, Modifier};
-use crate::chanoma::modifier_kind::ModifierKind;
+use crate::chanoma::error::Error;
 use crate::chanoma::modifier::ModifierFromYamlValue;
+use crate::chanoma::modifier_kind::ModifierKind;
 use crate::chanoma::position::Position;
-use crate::chanoma::error::ErrorKind;
 use std::str::FromStr;
 
 // 連続する同じ文字を一つにする
@@ -79,13 +79,13 @@ impl Modifier for ConsecutiveCharacterReducer {
 }
 
 impl ModifierFromYamlValue for ConsecutiveCharacterReducer {
-    fn from_yaml_value(value: &serde_yaml::Value) -> Result<Self, ErrorKind> {
+    fn from_yaml_value(value: &serde_yaml::Value) -> Result<Self, Error> {
         Self::from_str(value.as_str().unwrap())
     }
 }
 
 impl FromStr for ConsecutiveCharacterReducer {
-    type Err = ErrorKind;
+    type Err = Error;
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let c = s.chars().next().unwrap();
         Ok(Self::new(c))
@@ -108,6 +108,8 @@ impl ConsecutiveCharacterReducer {
 #[macro_export]
 macro_rules! consecutive_character_reducer {
     ($c:expr) => {{
-        crate::chanoma::modifier::consecutive_character_reducer::ConsecutiveCharacterReducer::new($c)
+        crate::chanoma::modifier::consecutive_character_reducer::ConsecutiveCharacterReducer::new(
+            $c,
+        )
     }};
 }

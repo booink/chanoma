@@ -1,8 +1,8 @@
 use super::{ModifiedData, Modifier};
-use crate::chanoma::modifier_kind::ModifierKind;
+use crate::chanoma::error::Error;
 use crate::chanoma::modifier::ModifierFromYamlValue;
+use crate::chanoma::modifier_kind::ModifierKind;
 use crate::chanoma::position::Position;
-use crate::chanoma::error::ErrorKind;
 use std::collections::HashSet;
 use std::str::FromStr;
 
@@ -36,7 +36,7 @@ impl Modifier for CharacterEliminator {
 }
 
 impl ModifierFromYamlValue for CharacterEliminator {
-    fn from_yaml_value(value: &serde_yaml::Value) -> Result<Self, ErrorKind> {
+    fn from_yaml_value(value: &serde_yaml::Value) -> Result<Self, Error> {
         let map = value
             .as_sequence()
             .unwrap()
@@ -48,7 +48,7 @@ impl ModifierFromYamlValue for CharacterEliminator {
 }
 
 impl FromStr for CharacterEliminator {
-    type Err = ErrorKind;
+    type Err = Error;
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let chars = s
             .split(',')
@@ -56,7 +56,7 @@ impl FromStr for CharacterEliminator {
             .filter_map(|st| st.trim().to_string().chars().next())
             .collect::<Vec<char>>();
         if chars.is_empty() {
-            return Err(ErrorKind::ModifierKindParseError("require value.".to_string()));
+            return Err(Error::ModifierKindParseError("require value.".to_string()));
         }
         Ok(Self::from_chars(chars))
     }

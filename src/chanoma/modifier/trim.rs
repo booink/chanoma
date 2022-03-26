@@ -1,7 +1,7 @@
 use super::{ModifiedData, Modifier};
-use crate::chanoma::modifier_kind::ModifierKind;
-use crate::chanoma::error::ErrorKind;
+use crate::chanoma::error::Error;
 use crate::chanoma::modifier::ModifierFromYamlValue;
+use crate::chanoma::modifier_kind::ModifierKind;
 use crate::chanoma::position::Position;
 use std::str::FromStr;
 
@@ -42,27 +42,35 @@ impl Modifier for Trim {
             });
         }
 
-        ModifiedData::new(ModifierKind::Trim(self.clone()), text.to_string(), positions)
+        ModifiedData::new(
+            ModifierKind::Trim(self.clone()),
+            text.to_string(),
+            positions,
+        )
     }
 }
 
 impl ModifierFromYamlValue for Trim {
-    fn from_yaml_value(value: &serde_yaml::Value) -> Result<Self, ErrorKind> {
+    fn from_yaml_value(value: &serde_yaml::Value) -> Result<Self, Error> {
         if value.is_null() {
             Ok(Self::new())
         } else {
-            Err(ErrorKind::ModifierKindParseError("Cannot specify a value.".to_string()))
+            Err(Error::ModifierKindParseError(
+                "Cannot specify a value.".to_string(),
+            ))
         }
     }
 }
 
 impl FromStr for Trim {
-    type Err = ErrorKind;
+    type Err = Error;
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         if s.is_empty() {
             Ok(Self::new())
         } else {
-            Err(ErrorKind::ModifierKindParseError("Cannot specify a value.".to_string()))
+            Err(Error::ModifierKindParseError(
+                "Cannot specify a value.".to_string(),
+            ))
         }
     }
 }
