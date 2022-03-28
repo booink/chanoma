@@ -1,3 +1,5 @@
+//! 連続する同じ文字を一つにする Modifier のモジュールです。
+
 use super::{ModifiedRecord, Modifier};
 use crate::error::Error;
 use crate::modifier::ModifierFromYamlValue;
@@ -5,7 +7,7 @@ use crate::modifier_kind::ModifierKind;
 use crate::position::Position;
 use std::str::FromStr;
 
-// 連続する同じ文字を一つにする
+/// 連続する同じ文字を一つにする Modifier の構造体です。
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct ConsecutiveCharacterReducer {
     c: char,

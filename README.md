@@ -28,14 +28,14 @@ fn main() {
 ### for CLI
 
 ```sh
-cargo install chanoma
+cargo install --git https://github.com/booink/chanoma
 ```
 
 ### for Rust
 
 ```toml:Cargo.toml
 [dependencies]
-chanoma = "0.1.0"
+chanoma = { version = "0.1.0", git = "https://github.com/booink/chanoma" }
 ```
 
 ## 設定ファイル
@@ -74,8 +74,8 @@ Yaml ファイルでは、一文字から一文字の置換と、Modifier を指
 
 ```yaml
 items:
-  - from: "~"
-    to: "~"
+  - from: "a"
+    to: "A"
 ```
 
 #### Modifier を指定する
@@ -94,8 +94,8 @@ items:
 ```yaml
 modifiers:
   character_converter:
-    D: d
-    E: e
+    a: A
+    b: B
   character_eliminator: ["~", ∼, ∾, 〜, 〰, ～]
   consecutive_character_reducer: ー
   dotted_space_eliminator:

@@ -1,8 +1,10 @@
+//! 定義済みの置換テーブル用のモジュールです。
+pub mod prelude;
+
 pub mod alphabets;
 pub mod cjk_compatibilities;
 pub mod digits;
 pub mod kanas;
-pub mod prelude;
 pub mod punctuations;
 
 use alphabets::ALPHABETS;
@@ -15,6 +17,7 @@ use cjk_compatibilities::CJK_COMPATIBILITIES;
 
 use crate::corr::{Corr, Correspondence, Item};
 
+/// すべての定義済みの置換テーブルを保持する構造体です。
 pub struct All;
 
 impl Corr for All {
@@ -34,4 +37,5 @@ impl All {
     }
 }
 
+/// すべての定義済みの置換テーブルの定数です。
 pub const ALL: Correspondence<All> = All::new().corr();

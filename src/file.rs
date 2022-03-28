@@ -1,14 +1,23 @@
+//! 設定ファイルを読み込む際の拡張子ごとのユーティリティ関数が定義されているモジュールです。
+
 use super::corr::{Corr, Correspondence, Item, Synthesized};
 use super::modifier_kind::ModifierKind;
 use super::table::{Origin, Table};
-use crate::ChanomaResult;
+use crate::error::Error;
 use serde::Serialize;
 use std::collections::BTreeMap;
 use std::fs::File;
 use std::io::Write;
 use std::path::Path;
 
-pub fn table_from_csv_path(path: impl AsRef<Path>) -> ChanomaResult<Table> {
+/// 設定ファイルの CSV ファイルのパスから置換テーブルを生成する関数です。
+///
+/// ```
+/// use chanoma::file::table_from_csv_path;
+///
+/// let result = table_from_csv_path("/path/to/foo.csv");
+/// ```
+pub fn table_from_csv_path(path: impl AsRef<Path>) -> Result<Table, Error> {
     let path = path.as_ref();
     let mut rdr = csv::ReaderBuilder::new().flexible(true).from_path(path)?;
     let mut items = Vec::new();
@@ -26,6 +35,13 @@ pub fn table_from_csv_path(path: impl AsRef<Path>) -> ChanomaResult<Table> {
     ))
 }
 
+/// 置換テーブルとWriterからcsv::Writerを生成して返す関数です。
+///
+/// ```
+/// use chanoma::{corr::Synthesized, file::to_csv_writer};
+///
+/// let wtr = to_csv_writer(&Synthesized::default().corr(), Vec::new());
+/// ```
 pub fn to_csv_writer<T: Corr, W: Write>(corr: &Correspondence<T>, writer: W) -> csv::Writer<W> {
     let mut wtr = csv::WriterBuilder::new().flexible(true).from_writer(writer);
     for (to, froms) in Synthesized::from(corr).item_map().iter_mut() {
@@ -35,7 +51,14 @@ pub fn to_csv_writer<T: Corr, W: Write>(corr: &Correspondence<T>, writer: W) -> 
     wtr
 }
 
-pub fn table_from_yaml_path(path: impl AsRef<Path>) -> ChanomaResult<Table> {
+/// 設定ファイルの YAML ファイルのパスから置換テーブルを生成する関数です。
+///
+/// ```
+/// use chanoma::file::table_from_yaml_path;
+///
+/// let result = table_from_yaml_path("/path/to/foo.yaml");
+/// ```
+pub fn table_from_yaml_path(path: impl AsRef<Path>) -> Result<Table, Error> {
     let path = path.as_ref();
     let data: serde_yaml::Value = serde_yaml::from_reader(File::open(path)?)?;
     let mut items = Vec::new();
@@ -56,7 +79,14 @@ pub fn table_from_yaml_path(path: impl AsRef<Path>) -> ChanomaResult<Table> {
     ))
 }
 
-pub fn modifiers_from_yaml_path(path: impl AsRef<Path>) -> ChanomaResult<Vec<ModifierKind>> {
+/// 設定ファイルの YAML ファイルのパスから Modifier を生成する関数です。
+///
+/// ```
+/// use chanoma::file::modifiers_from_yaml_path;
+///
+/// let result = modifiers_from_yaml_path("/path/to/foo.yaml");
+/// ```
+pub fn modifiers_from_yaml_path(path: impl AsRef<Path>) -> Result<Vec<ModifierKind>, Error> {
     let path = path.as_ref();
     let data: serde_yaml::Value = serde_yaml::from_reader(File::open(path)?)?;
     let mut modifiers = Vec::new();

@@ -158,7 +158,7 @@ const HYPHENS: Correspondence<Unification> =
 
 impl Neologdn {
     pub fn new() -> Self {
-        let corr = ALL - &EQUAL_SIGN + &CHOONPUS + &HYPHENS;
+        let corr = ALL - &Punctuations::EQUAL_SIGN + &CHOONPUS + &HYPHENS;
         let table = Table::from_corr(corr, Origin::New);
         let mut map = HashMap::new();
         for (f, t) in KANA_TEN.iter() {

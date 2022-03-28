@@ -12,7 +12,5 @@ pub mod table;
 
 pub use crate::chanoma::Chanoma;
 pub use corr::{Corr, Correspondence, Item, Synthesized};
-pub use position::{Position, TableItemId};
+pub use position::Position;
 pub use table::{Table, TableBuilder};
-
-pub type ChanomaResult<T> = Result<T, error::Error>;

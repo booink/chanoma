@@ -2,7 +2,7 @@ use super::file::*;
 use super::file_extension::FileExtension;
 use super::modifier::CharacterConverter;
 use super::modifier_kind::ModifierKind;
-use super::ChanomaResult;
+use crate::error::Error;
 use log::log_enabled;
 use std::env;
 use std::path::{Path, PathBuf};
@@ -14,11 +14,11 @@ impl Configuration {
     const ENV_NAME: &'static str = "CHANOMARC";
     const FILE_NAMES: [&'static str; 2] = ["chanomarc", ".chanomarc"];
 
-    pub fn from_path(path: &Path) -> ChanomaResult<Vec<ModifierKind>> {
+    pub fn from_path(path: &Path) -> Result<Vec<ModifierKind>, Error> {
         Self.load_file_with_ext(path)
     }
 
-    pub fn load(&self) -> ChanomaResult<Vec<ModifierKind>> {
+    pub fn load(&self) -> Result<Vec<ModifierKind>, Error> {
         let file_paths = self.file_paths()?;
         if log_enabled!(log::Level::Debug) {
             log::debug!("load files: {:?}", &file_paths);
@@ -31,7 +31,7 @@ impl Configuration {
         let result = file_paths
             .iter()
             .map(|path| self.load_file_with_ext(path))
-            .collect::<ChanomaResult<Vec<Vec<ModifierKind>>>>();
+            .collect::<Result<Vec<Vec<ModifierKind>>, Error>>();
 
         if let Err(e) = result {
             return Err(e);
@@ -44,7 +44,7 @@ impl Configuration {
             .collect::<Vec<ModifierKind>>())
     }
 
-    fn file_paths(&self) -> ChanomaResult<Vec<PathBuf>> {
+    fn file_paths(&self) -> Result<Vec<PathBuf>, Error> {
         // 環境変数が指定されていたら、そのパスだけを返す
         if let Some(path) = file_path_from_env(Self::ENV_NAME) {
             if log_enabled!(log::Level::Debug) {
@@ -68,7 +68,7 @@ impl Configuration {
         &self,
         path: &Path,
         ext: &FileExtension,
-    ) -> ChanomaResult<CharacterConverter> {
+    ) -> Result<CharacterConverter, Error> {
         let table = match ext {
             FileExtension::Csv => table_from_csv_path(path)?,
             FileExtension::Yaml => table_from_yaml_path(path)?,
@@ -77,7 +77,7 @@ impl Configuration {
         Ok(CharacterConverter::from_tables(vec![table]))
     }
 
-    fn load_modifiers(&self, path: &Path, ext: &FileExtension) -> ChanomaResult<Vec<ModifierKind>> {
+    fn load_modifiers(&self, path: &Path, ext: &FileExtension) -> Result<Vec<ModifierKind>, Error> {
         let modifier_kinds = match ext {
             FileExtension::Yaml => modifiers_from_yaml_path(path)?,
             //FileExtension::Json => modifiers_from_json_path(path)?,
@@ -86,7 +86,7 @@ impl Configuration {
         Ok(modifier_kinds)
     }
 
-    fn load_file_with_ext(&self, path: &Path) -> ChanomaResult<Vec<ModifierKind>> {
+    fn load_file_with_ext(&self, path: &Path) -> Result<Vec<ModifierKind>, Error> {
         let ext = FileExtension::from_path(&path)?;
         let character_converter = self.load_items_to_character_converter(path, &ext)?;
         let mut modifiers = self.load_modifiers(path, &ext)?;
@@ -105,7 +105,7 @@ fn file_path_from_env(env_name: &str) -> Option<PathBuf> {
 }
 
 /// 指定したファイルが設定ファイルとして使用可能であればパス情報を返す
-fn valid_file_path(path: PathBuf) -> ChanomaResult<Vec<PathBuf>> {
+fn valid_file_path(path: PathBuf) -> Result<Vec<PathBuf>, Error> {
     if !path.is_file() {
         return Err(crate::error::Error::RcFileLoadError(path));
     }

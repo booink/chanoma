@@ -1,11 +1,14 @@
+//! 正規化処理の準備や実行のトップレベルのモジュールです。
+
 use crate::configuration::Configuration;
-use crate::modifier::{CharacterConverter, ModifiedRecord, Modifier, Neologdn};
+use crate::error::Error;
+use crate::modifier::{CharacterConverter, ModifiedRecords, Modifier, Neologdn};
 use crate::modifier_kind::ModifierKind;
 use crate::table::{Table, TableBuilder};
-use crate::ChanomaResult;
 use log::log_enabled;
 use std::path::Path;
 
+/// 正規化処理のメイン構造体です。
 pub struct Chanoma {
     modifiers: Vec<ModifierKind>,
 }
@@ -50,7 +53,7 @@ impl Chanoma {
     ///
     /// let chanoma = Chanoma::from_config_file("/path/to/config.csv");
     /// ```
-    pub fn from_config_file<P: AsRef<Path>>(path: P) -> ChanomaResult<Self> {
+    pub fn from_config_file<P: AsRef<Path>>(path: P) -> Result<Self, Error> {
         Ok(Self {
             modifiers: Configuration::from_path(path.as_ref())?,
         })
@@ -114,7 +117,7 @@ impl Chanoma {
     /// use chanoma::Chanoma;
     ///
     /// let chanoma = Chanoma::preset();
-    /// println!("{}", chanoma.normalize("ｵﾊﾖｳｺﾞｻﾞｲﾏｽ"));
+    /// assert_eq!(chanoma.normalize("ﾁｬﾉﾏ"), "チャノマ");
     /// ```
     pub fn normalize(&self, text: &str) -> String {
         if !log_enabled!(log::Level::Debug) {
@@ -133,9 +136,9 @@ impl Chanoma {
     /// use chanoma::Chanoma;
     ///
     /// let chanoma = Chanoma::preset();
-    /// println!("{:?}", chanoma.normalize_with_positions("ｵﾊﾖｳｺﾞｻﾞｲﾏｽ"));
+    /// assert_eq!(chanoma.normalize_with_positions("ﾁｬﾉﾏ").text(), "チャノマ");
     /// ```
-    pub fn normalize_with_positions(&self, text: &str) -> ModifiedResult {
+    pub fn normalize_with_positions(&self, text: &str) -> ModifiedRecords {
         let mut v = Vec::new();
         let mut text = text.to_string();
         for m in self.modifiers.iter() {
@@ -146,7 +149,7 @@ impl Chanoma {
             v.push(result.clone());
             text = result.text;
         }
-        ModifiedResult::new(v)
+        ModifiedRecords::new(v)
     }
 
     /// 一文字から一文字の置換テーブルを定義した [Table] 構造体を使用するように [Chanoma] 構造体を初期化します。
@@ -180,24 +183,5 @@ impl Chanoma {
 
     fn all_characters_set() -> ModifierKind {
         CharacterConverter::from_tables(vec![TableBuilder::new().preset().build()]).into()
-    }
-}
-
-#[derive(Debug)]
-pub struct ModifiedResult {
-    records: Vec<ModifiedRecord>,
-}
-
-impl ModifiedResult {
-    pub fn new(data: Vec<ModifiedRecord>) -> Self {
-        Self { records: data }
-    }
-
-    pub fn text(&self) -> &str {
-        &self.records.last().unwrap().text
-    }
-
-    pub fn modified_records(&self) -> &Vec<ModifiedRecord> {
-        &self.records
     }
 }

@@ -1,11 +1,11 @@
-use std::fs;
-use std::path::{Path, PathBuf};
-
-use crate::ChanomaResult;
+//! 置換テーブルを定義するモジュールです。
 
 use super::characters_set::ALL;
 use super::corr::{Corr, Correspondence, Item, Synthesized};
 use super::file;
+use crate::error::Error;
+use std::fs;
+use std::path::{Path, PathBuf};
 
 /// 一文字から一文字の置換テーブルを定義している場所を指定する列挙型です。
 #[derive(Clone, Debug)]
@@ -217,7 +217,7 @@ impl TableBuilder {
     ///
     /// let builder = TableBuilder::from_yaml_path("./table.yaml");
     /// ```
-    pub fn from_yaml_path(path: impl AsRef<Path>) -> ChanomaResult<Self> {
+    pub fn from_yaml_path(path: impl AsRef<Path>) -> Result<Self, Error> {
         let path = fs::canonicalize(&path)?;
         Ok(Self {
             table: file::table_from_yaml_path(path)?,
@@ -231,7 +231,7 @@ impl TableBuilder {
     ///
     /// let builder = TableBuilder::from_csv_path("./table.csv");
     /// ```
-    pub fn from_csv_path(path: impl AsRef<Path>) -> ChanomaResult<Self> {
+    pub fn from_csv_path(path: impl AsRef<Path>) -> Result<Self, Error> {
         let path = fs::canonicalize(&path)?;
         Ok(Self {
             table: file::table_from_csv_path(path)?,
@@ -246,7 +246,7 @@ impl TableBuilder {
     /// let mut builder = TableBuilder::new();
     /// builder.add_from_csv("./table.csv");
     /// ```
-    pub fn add_from_csv(&mut self, path: impl AsRef<Path>) -> ChanomaResult<&mut Self> {
+    pub fn add_from_csv(&mut self, path: impl AsRef<Path>) -> Result<&mut Self, Error> {
         let table = file::table_from_csv_path(path.as_ref())?;
         self.table.add(&table.corr());
         Ok(self)
@@ -260,7 +260,7 @@ impl TableBuilder {
     /// let mut builder = TableBuilder::new();
     /// builder.add_from_yaml("./table.yaml");
     /// ```
-    pub fn add_from_yaml(&mut self, path: impl AsRef<Path>) -> ChanomaResult<&mut Self> {
+    pub fn add_from_yaml(&mut self, path: impl AsRef<Path>) -> Result<&mut Self, Error> {
         let table = file::table_from_yaml_path(path.as_ref())?;
         self.table.add(&table.corr());
         Ok(self)

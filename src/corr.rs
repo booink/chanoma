@@ -1,3 +1,5 @@
+//! 置換テーブルを合成するための仕組みを定義するモジュールです。
+
 mod item;
 mod linear;
 mod unification;
@@ -9,7 +11,7 @@ use std::collections::{BTreeMap, HashSet};
 use std::ops::Deref;
 use std::ops::{Add, AddAssign, Sub, SubAssign};
 
-/// [Item] の集合を表すための trait
+/// [Item] の集合を表すための trait です。
 pub trait Corr {
     fn items(&self) -> Vec<Item>;
 
@@ -27,8 +29,8 @@ pub trait Corr {
     }
 }
 
+/// [Corr] の実装同士を合成する際に利用する一時的な構造体です。
 #[derive(Clone, Debug)]
-// Corrの実装同士を合成するとき用
 pub struct Synthesized {
     items: Vec<Item>,
 }
@@ -46,14 +48,24 @@ impl Default for Synthesized {
 }
 
 impl Synthesized {
+    /// [Synthesized] 構造体を初期化します。
+    ///
+    /// ```
+    /// use chanoma::corr::{Item, Synthesized};
+    ///
+    /// let items = vec![Item::new("a", "Ａ")];
+    /// let synth = Synthesized::new(items);
+    /// ```
     pub const fn new(items: Vec<Item>) -> Self {
         Self { items }
     }
 
+    /// [Correspondence] を返します。
     pub const fn corr(self) -> Correspondence<Self> {
         Correspondence::new(self)
     }
 
+    /// [Item] の集合を key: 置換後, value: 置換前 の [BTreeMap] の形にして返します。
     pub fn item_map(&self) -> BTreeMap<&String, Vec<&String>> {
         let mut m = BTreeMap::new();
         for item in self.items.iter() {
@@ -63,7 +75,7 @@ impl Synthesized {
     }
 }
 
-// 演算子オーバーロードをするためのnewtype pattern
+/// [Corr] の実装同士を合成して [Synthesized] 構造体を生成するために利用する構造体です。
 #[derive(Debug, Clone)]
 pub struct Correspondence<T> {
     inner: T,
@@ -76,6 +88,14 @@ impl<Synthesized: Default> Default for Correspondence<Synthesized> {
 }
 
 impl<T> Correspondence<T> {
+    /// [Correspondence] 構造体を初期化します。
+    ///
+    /// ```
+    /// use chanoma::corr::{Correspondence, Synthesized};
+    ///
+    /// let synth = Synthesized::default();
+    /// let corr = Correspondence::new(synth);
+    /// ```
     pub const fn new(inner: T) -> Self {
         Self { inner }
     }

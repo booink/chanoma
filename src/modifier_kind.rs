@@ -8,7 +8,6 @@ use crate::modifier::neologdn::Neologdn;
 use crate::modifier::trim::Trim;
 use crate::modifier::ModifierFromYamlValue;
 use crate::modifier::{ModifiedRecord, Modifier};
-use crate::ChanomaResult;
 use std::str::FromStr;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -116,7 +115,7 @@ impl ModifierKind {
     pub fn from_yaml_key_value(
         key: &serde_yaml::Value,
         value: &serde_yaml::Value,
-    ) -> ChanomaResult<Self> {
+    ) -> Result<Self, Error> {
         match key.as_str().unwrap() {
             "character_converter" => Ok(Self::CharacterConverter(
                 CharacterConverter::from_yaml_value(value)?,

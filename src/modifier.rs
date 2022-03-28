@@ -44,3 +44,46 @@ pub trait ModifierFromYamlValue {
     where
         Self: Sized;
 }
+
+/// 実行された正規化処理の途中経過を保存する構造体です。
+#[derive(Debug)]
+pub struct ModifiedRecords {
+    records: Vec<ModifiedRecord>,
+}
+
+impl ModifiedRecords {
+    // [ModifiedRecords] 構造体を初期化します。
+    //
+    // ```
+    // use chanoma::modifier::ModifiedRecords;
+    //
+    // let modified = ModifiedRecords::new(vec![]);
+    // ```
+    pub fn new(records: Vec<ModifiedRecord>) -> Self {
+        Self { records }
+    }
+
+    // [ModifiedResult] 構造体から最終結果の文字列を取得します。
+    //
+    // ```
+    // use chanoma::modifier::ModifiedRecords;
+    //
+    // let modified = ModifiedRecords::new(vec![]);
+    // assert_eq!(modified.text(), "");
+    // ```
+    pub fn text(&self) -> &str {
+        &self.records.last().unwrap().text
+    }
+
+    // [ModifiedRecords] 構造体からすべての途中経過を取得します。
+    //
+    // ```
+    // use chanoma::modifier::ModifiedRecords;
+    //
+    // let modified = ModifiedRecords::new(vec![]);
+    // assert_eq!(modified.modified_records(), vec![]);
+    // ```
+    pub fn modified_records(&self) -> &Vec<ModifiedRecord> {
+        &self.records
+    }
+}

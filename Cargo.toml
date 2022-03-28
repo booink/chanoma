@@ -26,3 +26,8 @@ env_logger = "0.9"
 
 [dev-dependencies]
 env-test-util = "1.0"
+criterion = "0.3"
+
+[[bench]]
+name = "chanoma"
+harness = false
