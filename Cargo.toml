@@ -3,6 +3,11 @@ name = "chanoma"
 version = "0.1.0"
 authors = ["booink <booink.work@gmail.com>"]
 edition = "2021"
+description = "chanoma is Characters Normalization library. 文字列正規化処理用のライブラリです。"
+license = "MIT"
+repository = "https://github.com/booink/chanoma"
+keywords = ["nlp", "language", "japanese"]
+categories = ["algorithms", "command-line-utilities", "text-processing"]
 
 [lib]
 name = "chanoma"
