@@ -182,6 +182,9 @@ impl Chanoma {
     }
 
     fn all_characters_set() -> ModifierKind {
-        CharacterConverter::from_tables(vec![TableBuilder::new().preset().build()]).into()
+        let mut builder = TableBuilder::new();
+        builder.preset();
+        let table = builder.build();
+        CharacterConverter::from_tables(vec![table]).into()
     }
 }
