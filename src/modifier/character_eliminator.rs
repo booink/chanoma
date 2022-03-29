@@ -1,8 +1,8 @@
-use super::{ModifiedData, Modifier};
-use crate::chanoma::error::Error;
-use crate::chanoma::modifier::ModifierFromYamlValue;
-use crate::chanoma::modifier_kind::ModifierKind;
-use crate::chanoma::position::Position;
+use super::{ModifiedRecord, Modifier};
+use crate::error::Error;
+use crate::modifier::ModifierFromYamlValue;
+use crate::modifier_kind::ModifierKind;
+use crate::position::Position;
 use std::collections::HashSet;
 use std::str::FromStr;
 
@@ -25,9 +25,9 @@ impl Modifier for CharacterEliminator {
         s.into_iter().collect::<String>()
     }
 
-    fn modify_with_positions(&self, input: &str) -> ModifiedData {
+    fn modify_with_positions(&self, input: &str) -> ModifiedRecord {
         let positions: Vec<Position> = vec![];
-        ModifiedData::new(
+        ModifiedRecord::new(
             ModifierKind::CharacterEliminator(self.clone()),
             self.modify(input),
             positions,
@@ -93,6 +93,6 @@ macro_rules! character_eliminator {
         $(
             ch.push($c);
         )*
-        crate::chanoma::modifier::character_eliminator::CharacterEliminator::from_chars(ch)
+        crate::modifier::character_eliminator::CharacterEliminator::from_chars(ch)
     }};
 }

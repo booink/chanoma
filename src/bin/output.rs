@@ -1,5 +1,5 @@
 use chanoma::{
-    chanoma::file::{to_csv_writer, to_serialized_corr},
+    file::{to_csv_writer, to_serialized_corr},
     Table, TableBuilder,
 };
 use clap::Parser;
@@ -43,10 +43,9 @@ struct Opts {
 }
 
 fn main() {
-    let mut table = TableBuilder::new();
-    table.preset();
+    let table = TableBuilder::new().preset();
     let opts: Opts = Opts::parse();
     Format::from_str(&opts.format)
-        .output(table.build())
+        .output(&table.build())
         .expect("error.");
 }

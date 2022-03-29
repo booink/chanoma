@@ -1,13 +1,13 @@
-use crate::chanoma::characters_set::prelude::*;
-use crate::chanoma::corr::{Correspondence, Unification};
-use crate::chanoma::error::Error;
-use crate::chanoma::modifier::ModifierFromYamlValue;
-use crate::chanoma::modifier::{
+use crate::characters_set::prelude::*;
+use crate::corr::{Correspondence, Unification};
+use crate::error::Error;
+use crate::modifier::ModifierFromYamlValue;
+use crate::modifier::{
     CharacterConverter, CharacterEliminator, ConsecutiveCharacterReducer, DottedSpaceEliminator,
-    LigatureTranslator, ModifiedData, Modifier,
+    LigatureTranslator, ModifiedRecord, Modifier,
 };
-use crate::chanoma::modifier_kind::ModifierKind;
-use crate::chanoma::table::{Origin, Table};
+use crate::modifier_kind::ModifierKind;
+use crate::table::{Origin, Table};
 use std::collections::HashMap;
 use std::str::FromStr;
 
@@ -30,7 +30,7 @@ impl Modifier for Neologdn {
         self.space_eliminater.modify(&text)
     }
 
-    fn modify_with_positions(&self, input: &str) -> ModifiedData {
+    fn modify_with_positions(&self, input: &str) -> ModifiedRecord {
         let result = self.character_converter.modify_with_positions(input);
         let result = self.consecutive.modify_with_positions(&result.text);
         let result = self.space_eliminater.modify_with_positions(&result.text);
@@ -38,7 +38,7 @@ impl Modifier for Neologdn {
             .character_eliminator
             .modify_with_positions(&result.text);
         let result = self.ligature_translator.modify_with_positions(&result.text);
-        ModifiedData::new(
+        ModifiedRecord::new(
             ModifierKind::Neologdn(self.clone()),
             result.text,
             result.positions,
@@ -158,7 +158,7 @@ const HYPHENS: Correspondence<Unification> =
 
 impl Neologdn {
     pub fn new() -> Self {
-        let corr = ALL - &EQUAL_SIGN + &CHOONPUS + &HYPHENS;
+        let corr = ALL - &Punctuations::EQUAL_SIGN + &CHOONPUS + &HYPHENS;
         let table = Table::from_corr(corr, Origin::New);
         let mut map = HashMap::new();
         for (f, t) in KANA_TEN.iter() {

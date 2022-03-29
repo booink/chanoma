@@ -1,7 +1,8 @@
+//! 正規化処理で変化のあった文字(や文字列)の位置を保存する処理のモジュールです。
+
 use std::cmp::Ordering;
 
-pub type TableItemId = usize;
-
+/// 正規化処理で変化のあった文字(や文字列)の位置を保存しておくために利用する構造体です。
 #[derive(Clone, Debug, Eq)]
 pub struct Position {
     pub from: String,

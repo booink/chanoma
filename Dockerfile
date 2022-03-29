@@ -9,7 +9,7 @@ RUN useradd -m -u 1000 --shell /bin/sh -G sudo,root ${USER}
 RUN echo '%sudo ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
 
 RUN apt-get update -y \
-    && apt-get install -y libssl-dev pkg-config locales \
+    && apt-get install -y libssl-dev pkg-config locales gnuplot \
     && locale-gen ja_JP.UTF-8
 
 RUN localedef -f UTF-8 -i ja_JP ja_JP.UTF-8

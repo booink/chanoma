@@ -41,3 +41,12 @@ dependencies = ["test", "clippy", "fmt", "doc"]
 [tasks.all-watch]
 watch = true
 dependencies = ["all"]
+
+[tasks.bench]
+install_crate = "cargo-criterion"
+command = "cargo"
+args = ["criterion"]
+
+[tasks.bench-watch]
+watch = true
+dependencies = ["bench"]

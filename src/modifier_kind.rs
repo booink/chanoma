@@ -1,23 +1,30 @@
-use crate::chanoma::error::Error;
-use crate::chanoma::modifier::character_converter::CharacterConverter;
-use crate::chanoma::modifier::character_eliminator::CharacterEliminator;
-use crate::chanoma::modifier::consecutive_character_reducer::ConsecutiveCharacterReducer;
-use crate::chanoma::modifier::dotted_space_eliminator::DottedSpaceEliminator;
-use crate::chanoma::modifier::ligature_translator::LigatureTranslator;
-use crate::chanoma::modifier::neologdn::Neologdn;
-use crate::chanoma::modifier::trim::Trim;
-use crate::chanoma::modifier::ModifierFromYamlValue;
-use crate::chanoma::modifier::{ModifiedData, Modifier};
+use crate::error::Error;
+use crate::modifier::character_converter::CharacterConverter;
+use crate::modifier::character_eliminator::CharacterEliminator;
+use crate::modifier::consecutive_character_reducer::ConsecutiveCharacterReducer;
+use crate::modifier::dotted_space_eliminator::DottedSpaceEliminator;
+use crate::modifier::ligature_translator::LigatureTranslator;
+use crate::modifier::neologdn::Neologdn;
+use crate::modifier::trim::Trim;
+use crate::modifier::ModifierFromYamlValue;
+use crate::modifier::{ModifiedRecord, Modifier};
 use std::str::FromStr;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum ModifierKind {
+    /// 一文字を別の一文字に置換します
     CharacterConverter(CharacterConverter),
+    /// 文字を削除します
     CharacterEliminator(CharacterEliminator),
+    /// 連続する同じ文字を一つにします
     ConsecutiveCharacterReducer(ConsecutiveCharacterReducer),
+    /// 『「半角英数字」と「半角英数字」の間の半角スペース』以外の半角スペースを削除します
     DottedSpaceEliminator(DottedSpaceEliminator),
+    /// 合字をくっつけて一文字にします
     LigatureTranslator(LigatureTranslator),
+    /// 先頭と末尾の半角スペースを削除します
     Trim(Trim),
+    /// neologdn
     Neologdn(Neologdn),
 }
 
@@ -91,7 +98,7 @@ impl Modifier for ModifierKind {
         }
     }
 
-    fn modify_with_positions(&self, input: &str) -> ModifiedData {
+    fn modify_with_positions(&self, input: &str) -> ModifiedRecord {
         match self {
             Self::CharacterConverter(x) => x.modify_with_positions(input),
             Self::CharacterEliminator(x) => x.modify_with_positions(input),
@@ -108,7 +115,7 @@ impl ModifierKind {
     pub fn from_yaml_key_value(
         key: &serde_yaml::Value,
         value: &serde_yaml::Value,
-    ) -> anyhow::Result<Self> {
+    ) -> Result<Self, Error> {
         match key.as_str().unwrap() {
             "character_converter" => Ok(Self::CharacterConverter(
                 CharacterConverter::from_yaml_value(value)?,
@@ -130,36 +137,7 @@ impl ModifierKind {
             _ => Err(Error::ModifierKindParseError(format!(
                 "specified key {} does not exists.",
                 key.as_str().unwrap()
-            ))
-            .into()),
+            ))),
         }
     }
 }
-
-/*
-pub fn modifier_key_map(key: &str) -> anyhow::Result<XModifier<Box<dyn Modifier>>> {
-    let kind = ModifierKind::from_str(key);
-    if kind.is_err() {
-        return Err(anyhow::anyhow!("ParseModifierKindError"));
-    }
-    Ok(match kind.unwrap() {
-        ModifierKind::Neologdn => XModifier::new(Box::new(Neologdn::new())),
-        ModifierKind::Trim => XModifier::new(Box::new(Trim {})),
-        ModifierKind::DottedSpaceEliminator => {
-            XModifier::new(Box::new(DottedSpaceEliminator::new()))
-        }
-        ModifierKind::LigatureTranslator(map) => {
-            XModifier::new(Box::new(LigatureTranslator::from_map(map)))
-        }
-        ModifierKind::ConsecutiveCharacterReducer(c) => {
-            XModifier::new(Box::new(ConsecutiveCharacterReducer::new(c)))
-        }
-        ModifierKind::CharacterEliminator(chars) => {
-            XModifier::new(Box::new(CharacterEliminator::from_chars(chars)))
-        }
-        ModifierKind::CharacterConverter(map) => {
-            XModifier::new(Box::new(CharacterConverter::from_map(map)))
-        }
-    })
-}
-*/

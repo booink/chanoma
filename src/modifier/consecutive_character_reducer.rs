@@ -1,11 +1,13 @@
-use super::{ModifiedData, Modifier};
-use crate::chanoma::error::Error;
-use crate::chanoma::modifier::ModifierFromYamlValue;
-use crate::chanoma::modifier_kind::ModifierKind;
-use crate::chanoma::position::Position;
+//! 連続する同じ文字を一つにする Modifier のモジュールです。
+
+use super::{ModifiedRecord, Modifier};
+use crate::error::Error;
+use crate::modifier::ModifierFromYamlValue;
+use crate::modifier_kind::ModifierKind;
+use crate::position::Position;
 use std::str::FromStr;
 
-// 連続する同じ文字を一つにする
+/// 連続する同じ文字を一つにする Modifier の構造体です。
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct ConsecutiveCharacterReducer {
     c: char,
@@ -32,7 +34,7 @@ impl Modifier for ConsecutiveCharacterReducer {
         text
     }
 
-    fn modify_with_positions(&self, input: &str) -> ModifiedData {
+    fn modify_with_positions(&self, input: &str) -> ModifiedRecord {
         let c_len = self.c.len_utf8();
         let mut counter = 0; // 何文字連続しているか
         let mut text = String::new(); // 返却する文字列用のバッファ
@@ -70,7 +72,7 @@ impl Modifier for ConsecutiveCharacterReducer {
                 utf8_length: counter,
             });
         }
-        ModifiedData::new(
+        ModifiedRecord::new(
             ModifierKind::ConsecutiveCharacterReducer(self.clone()),
             text,
             positions,
@@ -108,8 +110,6 @@ impl ConsecutiveCharacterReducer {
 #[macro_export]
 macro_rules! consecutive_character_reducer {
     ($c:expr) => {{
-        crate::chanoma::modifier::consecutive_character_reducer::ConsecutiveCharacterReducer::new(
-            $c,
-        )
+        crate::modifier::consecutive_character_reducer::ConsecutiveCharacterReducer::new($c)
     }};
 }

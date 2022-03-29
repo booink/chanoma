@@ -21,7 +21,7 @@ fn main() {
     std::env::set_var("RUST_LOG", log_level);
     env_logger::init();
 
-    let chanoma = Chanoma::load_rc(opts.debug);
+    let chanoma = Chanoma::load_rc();
     if let Err(e) = chanoma {
         panic!("{:?}", e);
     }

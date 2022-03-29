@@ -1,8 +1,8 @@
-use super::{ModifiedData, Modifier};
-use crate::chanoma::error::Error;
-use crate::chanoma::modifier::ModifierFromYamlValue;
-use crate::chanoma::modifier_kind::ModifierKind;
-use crate::chanoma::position::Position;
+use super::{ModifiedRecord, Modifier};
+use crate::error::Error;
+use crate::modifier::ModifierFromYamlValue;
+use crate::modifier_kind::ModifierKind;
+use crate::position::Position;
 use std::str::FromStr;
 
 // 先頭と末尾の半角スペースを削除する
@@ -15,7 +15,7 @@ impl Modifier for Trim {
         input.trim_matches(' ').to_string()
     }
 
-    fn modify_with_positions(&self, input: &str) -> ModifiedData {
+    fn modify_with_positions(&self, input: &str) -> ModifiedRecord {
         let mut positions = Vec::new();
         let t = input.trim_start_matches(' ');
         if t != input {
@@ -42,7 +42,7 @@ impl Modifier for Trim {
             });
         }
 
-        ModifiedData::new(
+        ModifiedRecord::new(
             ModifierKind::Trim(self.clone()),
             text.to_string(),
             positions,
