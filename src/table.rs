@@ -200,8 +200,9 @@ impl TableBuilder {
     /// ```
     /// use chanoma::TableBuilder;
     ///
-    /// let builder = TableBuilder::new().preset();
-    /// let table = builder.build();
+    /// let mut table_builder = TableBuilder::new();
+    /// table_builder.preset();
+    /// let table = table_builder.build();
     /// ```
     // TODO: Corr間で矛盾する対応付けが存在したら、エラーにする
     // 例: Item::new("a", "A"), Item::new("a", "B")

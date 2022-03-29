@@ -43,9 +43,10 @@ struct Opts {
 }
 
 fn main() {
-    let table = TableBuilder::new().preset();
+    let mut table_builder = TableBuilder::new();
+    table_builder.preset();
     let opts: Opts = Opts::parse();
     Format::from_str(&opts.format)
-        .output(&table.build())
+        .output(&table_builder.build())
         .expect("error.");
 }

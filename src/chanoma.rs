@@ -157,8 +157,9 @@ impl Chanoma {
     /// ```
     /// use chanoma::{Chanoma, TableBuilder};
     ///
-    /// let table = TableBuilder::new().preset().build();
-    /// let chanoma = Chanoma::from_table(table);
+    /// let mut table_builder = TableBuilder::new();
+    /// table_builder.preset();
+    /// let chanoma = Chanoma::from_table(table_builder.build());
     /// ```
     pub fn from_table(table: Table) -> Self {
         Self {
@@ -171,9 +172,10 @@ impl Chanoma {
     /// ```
     /// use chanoma::{Chanoma, TableBuilder};
     ///
-    /// let table = TableBuilder::new().preset().build();
+    /// let mut table_builder = TableBuilder::new();
+    /// table_builder.preset();
     /// let mut chanoma = Chanoma::new();
-    /// chanoma.add_table(table);
+    /// chanoma.add_table(table_builder.build());
     /// ```
     pub fn add_table(&mut self, table: Table) -> &mut Self {
         self.modifiers
