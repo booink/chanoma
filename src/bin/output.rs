@@ -36,16 +36,17 @@ impl Format {
 }
 
 #[derive(Parser)]
-#[clap(version = "0.1.0", author = "booink <booink.work@gmail.com>")]
+#[clap(version = "0.1.1", author = "booink <booink.work@gmail.com>")]
 struct Opts {
     #[clap(short, long, default_value = "csv")]
     format: String,
 }
 
 fn main() {
-    let table = TableBuilder::new().preset();
+    let mut table_builder = TableBuilder::new();
+    table_builder.preset();
     let opts: Opts = Opts::parse();
     Format::from_str(&opts.format)
-        .output(&table.build())
+        .output(&table_builder.build())
         .expect("error.");
 }

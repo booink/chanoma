@@ -1,5 +1,5 @@
 from setuptools import setup
-from setuptools_rust import RustExtension
+from setuptools_rust import Binding, RustExtension
 
 setup(
     name="chanoma",
@@ -14,7 +14,8 @@ setup(
         "Operating System :: MacOS :: MacOS X",
     ],
     packages=["chanoma"],
-    rust_extensions=[RustExtension("chanoma.chanoma", "Cargo.toml", debug=False)],
+    rust_extensions=[RustExtension(
+        "chanoma.chanoma", "Cargo.toml", debug=False, binding=Binding.PyO3)],
     include_package_data=True,
     zip_safe=False,
 )

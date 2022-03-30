@@ -2,12 +2,14 @@
 name = "chanoma-py"
 version = "0.1.0"
 authors = ["booink <booink.work@gmail.com>"]
-edition = "2018"
+edition = "2021"
 
 [lib]
 name = "chanoma_py"
 crate-type = ["cdylib"]
 
 [dependencies]
-pyo3 = { version = "0.13.1", extension-module = ["extension-module"], default = ["extension-module"] }
+pyo3 = { version = "0.16", features = ["macros"], extension-module = [
+    "extension-module"
+], default = ["extension-module"] }
 chanoma = { path = "../../" }

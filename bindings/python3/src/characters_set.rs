@@ -1,6 +1,6 @@
-use pyo3::prelude::*;
 use super::Item;
 use chanoma::Corr;
+use pyo3::prelude::*;
 
 #[pyclass]
 struct Alphabets {
@@ -12,7 +12,13 @@ struct Alphabets {
 impl Alphabets {
     #[new]
     fn new() -> Self {
-        Self { items: chanoma::characters_set::alphabets::Alphabets::new().items().iter().map(Item::from).collect() }
+        Self {
+            items: chanoma::characters_set::alphabets::Alphabets::new()
+                .items()
+                .iter()
+                .map(Item::from)
+                .collect(),
+        }
     }
 }
 
@@ -26,7 +32,13 @@ struct Digits {
 impl Digits {
     #[new]
     fn new() -> Self {
-        Self { items: chanoma::characters_set::digits::Digits::new().items().iter().map(Item::from).collect() }
+        Self {
+            items: chanoma::characters_set::digits::Digits::new()
+                .items()
+                .iter()
+                .map(Item::from)
+                .collect(),
+        }
     }
 }
 
@@ -40,7 +52,13 @@ struct Punctuations {
 impl Punctuations {
     #[new]
     fn new() -> Self {
-        Self { items: chanoma::characters_set::punctuations::Punctuations::new().items().iter().map(Item::from).collect() }
+        Self {
+            items: chanoma::characters_set::punctuations::Punctuations::new()
+                .items()
+                .iter()
+                .map(Item::from)
+                .collect(),
+        }
     }
 }
 
@@ -54,7 +72,13 @@ struct Kanas {
 impl Kanas {
     #[new]
     fn new() -> Self {
-        Self { items: chanoma::characters_set::kanas::Kanas::new().items().iter().map(Item::from).collect() }
+        Self {
+            items: chanoma::characters_set::kanas::Kanas::new()
+                .items()
+                .iter()
+                .map(Item::from)
+                .collect(),
+        }
     }
 }
 
@@ -68,12 +92,18 @@ struct CjkCompatibilities {
 impl CjkCompatibilities {
     #[new]
     fn new() -> Self {
-        Self { items: chanoma::characters_set::cjk_compatibilities::CjkCompatibilities::new().items().iter().map(Item::from).collect() }
+        Self {
+            items: chanoma::characters_set::cjk_compatibilities::CjkCompatibilities::new()
+                .items()
+                .iter()
+                .map(Item::from)
+                .collect(),
+        }
     }
 }
 
 #[pymodule]
-fn characters_set(_py: Python, m: &PyModule) -> PyResult<()> {
+pub(crate) fn characters_set(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_class::<Alphabets>()?;
     m.add_class::<Digits>()?;
     m.add_class::<Punctuations>()?;

@@ -1,33 +1,9 @@
 use pyo3::exceptions::PyOSError;
 use pyo3::prelude::*;
-use pyo3::{wrap_pymodule, PyObjectProtocol};
+use pyo3::wrap_pymodule;
 
 mod characters_set;
 use characters_set::*;
-
-#[pyclass]
-#[derive(Clone, Debug)]
-struct Position {
-    from: String,
-    to: String,
-    index: usize,
-    length: usize,
-    utf8_index: usize,
-    utf8_length: usize,
-}
-
-impl From<&chanoma::Position> for Position {
-    fn from(p: &chanoma::Position) -> Position {
-        Position {
-            from: p.from.clone(),
-            to: p.to.clone(),
-            index: p.index,
-            length: p.length,
-            utf8_index: p.utf8_index,
-            utf8_length: p.utf8_length,
-        }
-    }
-}
 
 #[pyclass]
 struct Chanoma {
@@ -37,10 +13,25 @@ struct Chanoma {
 #[pymethods]
 impl Chanoma {
     #[new]
-    #[args(table = "None", neologdn = "false", preset = "false", rc = "false", debug = "false")]
-    fn new(table: Option<&Table>, neologdn: bool, preset: bool, rc: bool, debug: bool) -> PyResult<Self> {
-        let mut c = if rc {
-            chanoma::Chanoma::load_rc(debug).map_err(|e| PyOSError::new_err(e.to_string()))?
+    #[args(
+        table = "None",
+        neologdn = "false",
+        preset = "false",
+        rc = "false",
+        configfile = "None"
+    )]
+    fn new(
+        table: Option<&Table>,
+        neologdn: bool,
+        preset: bool,
+        rc: bool,
+        configfile: Option<&str>,
+    ) -> PyResult<Self> {
+        let mut c = if let Some(file) = configfile {
+            chanoma::Chanoma::from_config_file(file)
+                .map_err(|e| PyOSError::new_err(e.to_string()))?
+        } else if rc {
+            chanoma::Chanoma::load_rc().map_err(|e| PyOSError::new_err(e.to_string()))?
         } else {
             chanoma::Chanoma::new()
         };
@@ -158,18 +149,14 @@ impl Table {
     }
 
     fn add(&mut self, corr: &PyAny) -> PyResult<()> {
-        println!("add");
         let corr: CorrespondenceExtraction = corr.extract()?;
-        println!("add2");
         self.t.add(&chanoma::Correspondence::from(&corr));
-        println!("add3");
         Ok(())
     }
 }
 
 #[pymodule]
 fn chanoma(_py: Python, m: &PyModule) -> PyResult<()> {
-    m.add_class::<Position>()?;
     m.add_class::<Chanoma>()?;
     m.add_class::<Table>()?;
     m.add_class::<Item>()?;

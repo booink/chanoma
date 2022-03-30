@@ -1,6 +1,5 @@
 import unittest
 from chanoma import Table, Chanoma, Item, Correspondence
-import chanoma
 import os, shutil
 
 class TestChanoma(unittest.TestCase):

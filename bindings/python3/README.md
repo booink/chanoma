@@ -3,39 +3,25 @@
 chanoma is Characters Normalization library.
 文字列正規化処理用のライブラリです。
 
+[Rust 版](https://crates.io/crates/chanoma) の Python バインディングです。
+
 ## 使い方
 
-### for CLI
+```python
+from chanoma import Chanoma
 
-```sh
-chanoma -p ﾊﾝｶｸｶﾅは全角カタカナに変換されます
-```
+def main():
+    chanoma = Chanoma(preset=True)
+    print(chanoma.normalize("ﾊﾝｶｸｶﾅは全角カタカナに変換されます"))
 
-### for Rust
-
-```rust
-use chanoma::Chanoma;
-
-fn main() {
-    let chanoma = Chanoma::new();
-    chanoma.use_preset();
-    println!("{}", chanoma.normalize("ﾊﾝｶｸｶﾅは全角カタカナに変換されます"));
-}
+if __name__ == '__main__':
+    main()
 ```
 
 ## インストール
 
-### for CLI
-
 ```sh
-cargo install --git https://github.com/booink/chanoma
-```
-
-### for Rust
-
-```toml:Cargo.toml
-[dependencies]
-chanoma = { version = "0.1.1", git = "https://github.com/booink/chanoma" }
+pip install git+https://github.com/booink/chanoma/tree/main/bindings/python3
 ```
 
 ## 設定ファイル
@@ -103,4 +89,14 @@ modifiers:
     ハ゜: パ
   trim:
   neologdn:
+```
+
+## Development
+
+```sh
+docker-compose build
+docker-compose run --rm chanoma bash
+cd /app/bindings/python3
+python3 ./setup.py develop
+./run-test.sh
 ```
