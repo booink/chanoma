@@ -4,7 +4,7 @@ use clap::Parser;
 use std::io;
 
 #[derive(Parser)]
-#[clap(version = "0.1.0", author = "booink <booink.work@gmail.com>")]
+#[clap(version = "0.1.1", author = "booink <booink.work@gmail.com>")]
 struct Opts {
     input: Option<String>,
     #[clap(short, long)]

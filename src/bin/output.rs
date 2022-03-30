@@ -36,7 +36,7 @@ impl Format {
 }
 
 #[derive(Parser)]
-#[clap(version = "0.1.0", author = "booink <booink.work@gmail.com>")]
+#[clap(version = "0.1.1", author = "booink <booink.work@gmail.com>")]
 struct Opts {
     #[clap(short, long, default_value = "csv")]
     format: String,

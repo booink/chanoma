@@ -35,7 +35,7 @@ cargo install --git https://github.com/booink/chanoma
 
 ```toml:Cargo.toml
 [dependencies]
-chanoma = { version = "0.1.0", git = "https://github.com/booink/chanoma" }
+chanoma = { version = "0.1.1", git = "https://github.com/booink/chanoma" }
 ```
 
 ## 設定ファイル

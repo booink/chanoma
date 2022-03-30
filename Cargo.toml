@@ -1,6 +1,6 @@
 [package]
 name = "chanoma"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["booink <booink.work@gmail.com>"]
 edition = "2021"
 description = "chanoma is Characters Normalization library. 文字列正規化処理用のライブラリです。"
