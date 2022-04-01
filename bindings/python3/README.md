@@ -21,7 +21,7 @@ if __name__ == '__main__':
 ## インストール
 
 ```sh
-pip install git+https://github.com/booink/chanoma/tree/main/bindings/python3
+pip install chanoma
 ```
 
 ## 設定ファイル
@@ -94,9 +94,21 @@ modifiers:
 ## Development
 
 ```sh
-docker-compose build
+docker-compose build chanoma
 docker-compose run --rm chanoma bash
 cd /app/bindings/python3
 python3 ./setup.py develop
 ./run-test.sh
+```
+
+## Build
+
+```sh
+docker-compose run --rm build-wheels-for-python ./build-wheels.sh
+```
+
+## Publish
+
+```sh
+docker-compose run --rm chanoma ./bindings/python3/publish_to_pypi.sh
 ```
