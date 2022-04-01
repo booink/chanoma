@@ -1,4 +1,3 @@
-//use chanoma::{chanoma::table::Origin, chanoma::PreparedTable, Chanoma};
 use chanoma::Chanoma;
 use clap::Parser;
 use std::io;
