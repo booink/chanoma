@@ -1,5 +1,8 @@
 # chanoma
 
+[![crates.io](https://img.shields.io/crates/v/chanoma?label=latest)](https://crates.io/crates/chanoma)
+[![Documentation](https://docs.rs/chanoma/badge.svg?version=0.1.２)](https://docs.rs/chanoma/0.1.２)
+
 chanoma is Characters Normalization library.
 文字列正規化処理用のライブラリです。
 
