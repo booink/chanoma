@@ -1,4 +1,4 @@
-FROM rust:1.59.0-slim-bullseye
+FROM rust:1.60.0-slim-bullseye
 
 USER root
 
